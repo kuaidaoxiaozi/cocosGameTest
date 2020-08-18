@@ -84,13 +84,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 15
-      },
-      {
         "__id__": 16
       },
       {
         "__id__": 17
+      },
+      {
+        "__id__": 18
       }
     ],
     "_prefab": null,
@@ -180,7 +180,7 @@
       "array": [
         0,
         0,
-        434.74475269978825,
+        518.741834848196,
         0,
         0,
         0,
@@ -211,7 +211,7 @@
       "__id__": 3
     },
     "_enabled": true,
-    "_cullingMask": 4,
+    "_cullingMask": 4294967295,
     "_clearFlags": 7,
     "_backgroundColor": {
       "__type__": "cc.Color",
@@ -556,6 +556,9 @@
       },
       {
         "__id__": 14
+      },
+      {
+        "__id__": 15
       }
     ],
     "_prefab": null,
@@ -666,6 +669,19 @@
     ],
     "playOnLoad": false,
     "_id": "c873cPq1FBULwhhdbykfGi"
+  },
+  {
+    "__type__": "148beaad+JMZ7ndIyo25+ok",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 12
+    },
+    "_enabled": true,
+    "collBox": null,
+    "attackBox": null,
+    "anim": null,
+    "_id": "68Fssr7QVPLLuBwZSp+tbs"
   },
   {
     "__type__": "cc.Canvas",
