@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "zz_defense",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.15,
+  "sample": 20,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "ce72821a-54c3-44d7-ae2d-c4952f0389c7"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "7fe6cbc0-b563-4408-8621-4f0634ddc18d"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "0058f710-65a3-4221-9eb3-37a75eb693cb"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "anchorX": [
+        {
+          "frame": 0,
+          "value": 0.5,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.05,
+          "value": 0.47,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.1,
+          "value": 0.43
+        }
+      ]
+    }
+  },
+  "events": []
+}

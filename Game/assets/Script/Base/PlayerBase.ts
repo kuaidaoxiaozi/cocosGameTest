@@ -28,6 +28,12 @@ export default class PlayerBases extends EntityBase {
     public face = 1;
     public faceVec = 0;
 
+    public speed_X = 0;
+    public speed_Y = 0;
+
+    public anim_S: cc.AnimationState;
+
+    
 
     onLoad() {
         super.onLoad();

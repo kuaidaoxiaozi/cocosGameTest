@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "zz_hurt",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.3,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "8cb471ff-9b9b-49bb-b2e7-f1ee07e651c5"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "f81891ac-01b6-4cb8-8e9a-c110cadb6811"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "6da93eec-9fd6-45af-865c-6acb0c03163f"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "anchorX": [
+        {
+          "frame": 0,
+          "value": 0.5,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.1,
+          "value": 0.6,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.2,
+          "value": 0.7
+        }
+      ]
+    }
+  },
+  "events": []
+}

@@ -81,6 +81,7 @@ export default class Input {
     }
 
     private doubleClickTime = 0.19;
+    /** 双击 */
     public GetKeyDoubleClick(code: KeyCode) {
         let now =$GameTime.time;
         let last = this.keyDownTimeMap_last[code];

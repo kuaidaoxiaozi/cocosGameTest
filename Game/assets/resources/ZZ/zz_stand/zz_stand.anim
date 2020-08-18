@@ -1,0 +1,51 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "zz_stand",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.4,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "74c20a53-0484-4c83-bab4-490fcd459c26"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "ab4037a1-eb54-45a2-8348-c58cfeb371b4"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "f7d53034-8d5f-4874-9b86-27384065ecff"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "6564c41b-6090-4870-bc3b-46470b5e10bf"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "anchorX": [
+        {
+          "frame": 0,
+          "value": 0.5
+        }
+      ]
+    }
+  },
+  "events": []
+}

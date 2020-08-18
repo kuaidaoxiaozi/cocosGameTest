@@ -1,0 +1,105 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "zz_attack",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6,
+  "sample": 20,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "6a5f6704-25b5-4441-b2c1-46267d2e208b"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "737b32c0-f885-4453-bdf7-1dccf9882079"
+            }
+          },
+          {
+            "frame": 0.15,
+            "value": {
+              "__uuid__": "296b5af1-cd7a-418d-bff5-1e58b3edefa6"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "54d8a0db-5773-4356-9d40-4e9bb33b7548"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "714975e6-c319-4bf1-a546-acbe9df5a920"
+            }
+          },
+          {
+            "frame": 0.35,
+            "value": {
+              "__uuid__": "a6a34730-748e-485b-8cb1-b340b1baa071"
+            }
+          },
+          {
+            "frame": 0.45,
+            "value": {
+              "__uuid__": "4f12d172-5b4d-44d7-9807-8a18e4f0a950"
+            }
+          },
+          {
+            "frame": 0.55,
+            "value": {
+              "__uuid__": "6fde05c3-0a7f-4d8d-ab82-8d4d0aa16ec4"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "anchorX": [
+        {
+          "frame": 0,
+          "value": 0.5,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.1,
+          "value": 0.3,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.15,
+          "value": 0.22,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.2,
+          "value": 0.1,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.25,
+          "value": 0.17,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.45,
+          "value": 0.18,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.55,
+          "value": 0.5
+        }
+      ]
+    }
+  },
+  "events": []
+}
