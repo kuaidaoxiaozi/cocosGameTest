@@ -8,6 +8,10 @@
 import PlayerBases from "./Base/PlayerBase";
 import { $input } from "./KU/Input";
 import { KeyCode } from "./KeyCode";
+import SkillCtrler_Base, { SkillCtrler_SwitchSkill } from "./SkillCtrler_Base";
+import SkillCtrlCfg_Base from "./SkillCtrl_Base";
+import AnimTrigger_Base, { AnimTrigger_KeyCode } from "./AnimTrigger_Base";
+import PlayerKeyCode from "./PlayerKeyCode";
 
 const { ccclass, property } = cc._decorator;
 
@@ -158,7 +162,64 @@ export default class ZZ extends PlayerBases {
         }
         zz_qlz_4.bind(self);
         self.AnimUpdateMap["zz_qlz_4"] = zz_qlz_4;
+
+
+        let zz_qlz_12: cc.AnimationState = self.anim.getAnimationState("zz_qlz_1");
+
+
+
+
+
+
+        this.anim.name = "zz"
+
+
+
+
+        let ats0: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
+        ats0.keyCodeList.push(PlayerKeyCode.Attack);
+
+        let sccb0: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+        sccb0.TriggerList.push(ats0);
+
+        let scss0: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss0.cfg = sccb0;
+        scss0.nextSkillName = "zz_qlz_1";
+        scss0.anim = self.anim;
+
+
+        this.ssss["zz_stand"] = scss0;
+
+
+
+
+
+
+
+
+
+        let ats1: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
+        ats1.keyCodeList.push(PlayerKeyCode.Attack);
+
+        let sccb1: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+        sccb1.TriggerList.push(ats1);
+
+        let scss1: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss1.cfg = sccb1;
+        scss1.nextSkillName = "zz_qlz_2";
+        scss1.anim = self.anim;
+
+
+        this.ssss["zz_qlz_1"] = scss1;
+
+
     }
+
+
+    public ssss: { [name: string]: SkillCtrler_Base } = {}
+
+
+
 
 
 
@@ -219,7 +280,11 @@ export default class ZZ extends PlayerBases {
 
 
 
-        this.AnimUpdateMap[this.anim_S.name](dt);
+        // this.AnimUpdateMap[this.anim_S.name](dt);
+
+
+        let cc = this.ssss[this.anim.currentClip.name];
+        cc.ctrler();
 
 
     }

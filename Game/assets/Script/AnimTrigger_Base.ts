@@ -7,6 +7,7 @@
 
 import { $input } from "./KU/Input";
 import PlayerInputBuffer from "./PlayerInputBuffer";
+import { KeyCode } from "./KeyCode";
 
 export enum AnimTrigeerEnum {
     /** 输入指令 */
@@ -22,7 +23,7 @@ export default class AnimTrigger_Base {
     protected _type: AnimTrigeerEnum;
     public getType(): AnimTrigeerEnum { return this._type }
 
-    public isTrigger(): boolean {
+    public IsTrigger(): boolean {
         return false
     }
 
@@ -34,7 +35,7 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.keyCode;
 
-    private keyCodeList = [];
+    public keyCodeList: KeyCode[] = [];
 
     public toDesc() {
         let str = "按键事件: ";
@@ -44,7 +45,7 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
         console.log(str);
     }
 
-    public isTrigger(): boolean {
+    public IsTrigger(): boolean {
         for (let i = 0; i < this.keyCodeList.length; i++) {
 
             if ($input.GetKeyState(this.keyCodeList[i]) <= 0 && PlayerInputBuffer.Inst().Get_Order_Buffer(this.keyCodeList[i]) == false) {
@@ -56,7 +57,7 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
     }
 }
 
-export class AnimTrigger_frameRange extends AnimTrigger_Base {
+export class AnimTrigger_FrameRange extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.frameRange;
 
@@ -70,7 +71,7 @@ export class AnimTrigger_frameRange extends AnimTrigger_Base {
         console.log(str);
     }
 
-    public isTrigger(): boolean {
+    public IsTrigger(): boolean {
         let time = 1 / this.anim_s.clip.sample;
 
         let startTime = time * this.startFrame;
@@ -86,30 +87,3 @@ export class AnimTrigger_frameRange extends AnimTrigger_Base {
     }
 }
 
-
-export class AnimTrigger_frameRange_Buffer extends AnimTrigger_Base {
-
-    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.frameRange_Buffer;
-
-    private startFrame: number = 0;
-    private endFrame: number = 0;
-
-    private anim_s: cc.AnimationState;
-
-    public toDesc() {
-        let str = "帧范围事件，起始帧：" + this.startFrame + "  终止指针：" + this.endFrame;
-        console.log(str);
-    }
-
-    public isTrigger(): boolean {
-        let time = 1 / this.anim_s.clip.sample;
-
-        let startTime = time * this.startFrame;
-        let endTime = time * this.endFrame;
-
-        if (this.anim_s.time < startTime || this.anim_s.time > endTime) {
-            return false;
-        }
-        return true;
-    }
-}
