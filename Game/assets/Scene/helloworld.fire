@@ -180,7 +180,7 @@
       "array": [
         0,
         0,
-        518.741834848196,
+        427.65416970630315,
         0,
         0,
         0,
@@ -539,6 +539,8 @@
     },
     "attackBox": null,
     "anim": null,
+    "IsAnimOffset": false,
+    "AnimOffset": 0,
     "_id": "e862ascqxB0bqC4sWeXBoY"
   },
   {
@@ -665,6 +667,21 @@
       },
       {
         "__uuid__": "c4c2ab42-9e83-4eaa-b2dc-7214363b23b5"
+      },
+      {
+        "__uuid__": "a033a179-f4eb-4bda-a3cd-cdb458268b6d"
+      },
+      {
+        "__uuid__": "bf89407b-6d81-4773-8af6-d1bd5410e513"
+      },
+      {
+        "__uuid__": "ec43120a-f28f-4da6-a37c-0d8be34b4f92"
+      },
+      {
+        "__uuid__": "9f91f0ef-4777-4faa-9f06-691b1e928f8b"
+      },
+      {
+        "__uuid__": "edf15fd3-8aa6-4a46-8442-b1ac98bf10fb"
       }
     ],
     "playOnLoad": false,
@@ -681,6 +698,8 @@
     "collBox": null,
     "attackBox": null,
     "anim": null,
+    "IsAnimOffset": false,
+    "AnimOffset": 0,
     "_id": "68Fssr7QVPLLuBwZSp+tbs"
   },
   {

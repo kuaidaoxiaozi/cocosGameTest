@@ -1,7 +1,8 @@
-import Input, { $input } from "./KU/Input";
+import { $input } from "./KU/Input";
 import { QuadTree, Bound } from "./KU/QuadTree";
 import { QuadTreeManage } from "./KU/QuadTreeManage";
 import { $GameTime } from "./KU/GameTime";
+import PlayerInputBuffer from "./PlayerInputBuffer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,8 +64,7 @@ export default class Helloworld extends cc.Component {
     update(dt) {
         $input.Update();
         $GameTime.Update(dt);
-
-        
+        PlayerInputBuffer.Inst().update();
 
     }
 

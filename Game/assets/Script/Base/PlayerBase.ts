@@ -33,7 +33,15 @@ export default class PlayerBases extends EntityBase {
 
     public anim_S: cc.AnimationState;
 
-    
+
+    /** 是否进行动画位移 */
+    @property(Boolean)
+    public IsAnimOffset: Boolean = false;
+    /** 动画位移量 */
+    @property(Number)
+    public AnimOffset: number = 0;
+
+
 
     onLoad() {
         super.onLoad();
@@ -68,7 +76,18 @@ export default class PlayerBases extends EntityBase {
         return cb;
     }
 
+    // public Maxspeed(mX: number, mY: number) {
+    //     if (Math.abs(this.speed_X) > mX)
+    //         this.speed_X = this.Sign(this.speed_X) * mX;
+    //     if (Math.abs(this.speed_Y) > mY)
+    //         this.speed_Y = this.Sign(this.speed_Y) * mY;
+    // }
 
+
+    /** 标记 大于0 => 1，等于0 => 0，小于0 => -1 */
+    public Sign(n: number): number {
+        return (n > 0 ? 1 : (n < 0 ? -1 : 0))
+    }
 
 
 

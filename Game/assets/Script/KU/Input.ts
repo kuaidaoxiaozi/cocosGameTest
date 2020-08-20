@@ -9,10 +9,14 @@ export default class Input {
     private keyDownTimeMap_last: number[];
     private keyDownTimeMap_now: number[];
 
+    private keyState: KeyState[];
+
     public constructor() {
 
         this.inputList = []
         this.inputList_Last = [];
+
+        this.keyState = new Array<number>(256).fill(0);
 
         this.keyDownTimeMap_now = new Array<number>(256).fill(0);
         this.keyDownTimeMap_last = new Array<number>(256).fill(-256);
@@ -30,44 +34,76 @@ export default class Input {
             this.inputList_Last.push(key);
         }
 
+
+
+
         for (let i = 0; i < this.KeyDownEventList.length; i++) {
             this.KeyDownEventList[i]();
         }
         this.KeyDownEventList.length = 0;
+
+        for (let i = 0; i < this.KeyFirstDownEventList.length; i++) {
+            this.KeyFirstDownEventList[i]();
+        }
+        this.KeyFirstDownEventList.length = 0;
 
         for (let i = 0; i < this.KeyUpEventList.length; i++) {
             this.KeyUpEventList[i]();
         }
         this.KeyUpEventList.length = 0;
 
+        for (let i = 0; i < this.KeyDownList.length; i++) {
+            if (($GameTime.time - this.keyDownTimeMap_now[this.KeyDownList[i]]) > 0.35) {
+                this.keyState[this.KeyDownList[i]] = KeyState.holdDown;
+            }
+        }
+
     }
 
-    public KeyDownEventList: Function[] = [];
+    public KeyFirstDownEventList: Function[] = [];
     public KeyUpEventList: Function[] = [];
+
+    public KeyDownEventList: Function[] = [];
+
+    public KeyDownList: KeyCode[] = [];
 
 
     onKeyDown(event: cc.Event.EventKeyboard) {
         let self = this;
         let code = event.keyCode;
 
-        function fun() {
+        let fun = () => {
             if (self.inputList.indexOf(code) < 0) {
                 self.inputList.push(code)
 
                 let last = self.keyDownTimeMap_now[code];
                 self.keyDownTimeMap_last[code] = last;
                 self.keyDownTimeMap_now[code] = $GameTime.time;
+
+                if (self.keyState[code] == KeyState.up) {
+                    self.keyState[code] = KeyState.firstDown;
+
+                    let sss = () => {
+                        self.keyState[code] = KeyState.down;
+                    }
+                    sss.bind(self);
+                    self.KeyDownEventList.push(sss);
+                } else if (this.keyState[code] == KeyState.down) {
+                    this.keyState[code] = KeyState.holdDown;
+                }
+
+                self.KeyDownList.push(code);
             }
         }
         fun.bind(self)
-        self.KeyDownEventList.push(fun);
+        self.KeyFirstDownEventList.push(fun);
     }
 
     onKeyUp(event: cc.Event.EventKeyboard) {
         let self = this;
         let code = event.keyCode;
 
-        function fun() {
+        let fun = () => {
             while (true) {
                 let index = self.inputList.indexOf(code);
                 if (index >= 0)
@@ -75,15 +111,23 @@ export default class Input {
                 else
                     break;
             }
+            self.keyState[code] = KeyState.up;
+            self.KeyDownList.splice(self.KeyDownList.indexOf(code), 1);
         }
         fun.bind(self)
         self.KeyUpEventList.push(fun);
     }
 
+
+    public GetKeyState(keyCode: KeyCode): KeyState {
+        return this.keyState[keyCode];
+    }
+
+
     private doubleClickTime = 0.19;
     /** 双击 */
     public GetKeyDoubleClick(code: KeyCode) {
-        let now =$GameTime.time;
+        let now = $GameTime.time;
         let last = this.keyDownTimeMap_last[code];
         if (now - last <= this.doubleClickTime)
             return true;
@@ -116,5 +160,13 @@ export default class Input {
 
 
 }
+
+export enum KeyState {
+    up = 0,
+    firstDown,
+    down,
+    holdDown,
+}
+
 
 export var $input: Input = new Input();

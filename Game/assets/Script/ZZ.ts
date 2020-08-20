@@ -23,81 +23,152 @@ export default class ZZ extends PlayerBases {
         this.anim_S = this.anim.play("zz_stand");
 
 
-
-
+        let as: cc.AnimationState = this.anim.getAnimationState("zz_stand");
 
 
     }
 
 
-    private AnimUpdateMap;
+    private AnimUpdateMap: { [name: string]: Function };
 
 
     start() {
+        let self = this;
         this.AnimUpdateMap = {};
 
-        let K_stand = () => {
-            // if ($Input.GetKeyDoubleClick(KeyCode.LeftArrow) || $Input.GetKeyDoubleClick(KeyCode.RightArrow)) {
-            //     this.node.scaleX = this.face;
-            //     this.anim_S = this.anim.play("K_runing");
-            // }
-            let lr = $input.GetKey(KeyCode.LeftArrow) || $input.GetKey(KeyCode.RightArrow);
-            if (lr && $input.GetKeyDownToLong(KeyCode.SPACE)) {
-                this.node.scaleX = this.face;
-                this.anim_S = this.anim.play("zz_run");
+        let zz_stand = () => {
+
+            let l = $input.GetKeyState(KeyCode.LeftArrow) > 0;
+            let r = $input.GetKeyState(KeyCode.RightArrow) > 0;
+
+            let axis = 0;
+            axis += (l ? -1 : 0);
+            axis += (r ? 1 : 0);
+
+            let j = $input.GetKeyState(KeyCode.X) > 0;
+
+            if (axis != 0) {
+                self.anim_S = self.anim.play("zz_run");
+            } else {
+                if (j) {
+                    self.anim_S = self.anim.play("zz_qlz_1");
+                }
             }
-            else {
-                this.node.scaleX = this.face;
-                this.anim_S = this.anim.play("zz_run");
+
+        }
+        zz_stand.bind(self);
+        self.AnimUpdateMap["zz_stand"] = zz_stand;
+
+
+        let zz_run = (dt) => {
+
+            let l = $input.GetKeyState(KeyCode.LeftArrow) > 0;
+            let r = $input.GetKeyState(KeyCode.RightArrow) > 0;
+
+            let axis = 0;
+            axis += (l ? -1 : 0);
+            axis += (r ? 1 : 0);
+
+            if (axis == 0 && self.speed_X == 0) {
+                self.anim_S = self.anim.play("zz_stand");
+            }
+
+            let j = $input.GetKeyState(KeyCode.X) > 0;
+            if (j) {
+                self.speed_X == 0
+                self.anim_S = self.anim.play("zz_attack");
+            }
+
+            self.move(dt);
+        }
+        zz_run.bind(self);
+        self.AnimUpdateMap["zz_run"] = zz_run;
+
+        let zz_attack = () => {
+            if (self.anim_S.time >= self.anim_S.duration) {
+
+                let l = $input.GetKeyState(KeyCode.LeftArrow) > 0;
+                let r = $input.GetKeyState(KeyCode.RightArrow) > 0;
+
+                let axis = 0;
+                axis += (l ? -1 : 0);
+                axis += (r ? 1 : 0);
+
+                if (axis != 0) {
+                    self.node.x += axis * 45;
+                    self.anim_S = self.anim.play("zz_run");
+                } else {
+                    self.node.x += self.face * 45;
+                    self.anim_S = self.anim.play("zz_stand");
+                }
             }
         }
-        this.AnimUpdateMap["zz_stand"] = K_stand.bind(this);
+        zz_attack.bind(self);
+        self.AnimUpdateMap["zz_attack"] = zz_attack;
 
 
-        let K_walk = () => {
-            let lr = $input.GetKey(KeyCode.LeftArrow) || $input.GetKey(KeyCode.RightArrow);
-            if (this.faceVec == 0) {
-                this.anim_S = this.anim.play("K_stand");
-            } else if (lr && $input.GetKeyDownToLong(KeyCode.SPACE)) {
-                this.node.scaleX = this.face;
-                this.anim_S = this.anim.play("K_runing");
+
+
+
+        let zz_qlz_1 = () => {
+            let tick = 1 / self.anim_S.clip.sample;
+            if (self.anim_S.time >= self.anim_S.duration) {
+                self.anim_S = self.anim.play("zz_stand");
             }
-            // if ($Input.GetKeyDoubleClick(KeyCode.LeftArrow) || $Input.GetKeyDoubleClick(KeyCode.LeftArrow)) {
-            //     this.node.scaleX = this.face;
-            //     this.anim_S = this.anim.play("K_runing");
-            // }
-        }
-        this.AnimUpdateMap["zz_walk"] = K_walk.bind(this);
-
-
-        let K_runing = () => {
-            if (this.faceVec == 0) {
-                this.anim_S = this.anim.play("zz_stand");
-            } else if (!$input.GetKeyDownToLong(KeyCode.SPACE)) {
-                this.anim_S = this.anim.play("zz_walk");
+            else if (self.anim_S.time > tick * 4) {
+                if ($input.GetKeyState(KeyCode.X)) {
+                    self.anim_S = self.anim.play("zz_qlz_2");
+                }
             }
         }
-        this.AnimUpdateMap["zz_runing"] = K_runing.bind(this);
+        zz_qlz_1.bind(self);
+        self.AnimUpdateMap["zz_qlz_1"] = zz_qlz_1;
 
-
-        let K_run_end = () => {
-            if (this.anim_S.time == this.anim_S.duration) {
-                this.anim_S = this.anim.play("zz_stand");
+        let zz_qlz_2 = () => {
+            let tick = 1 / self.anim_S.clip.sample;
+            if (self.anim_S.time >= self.anim_S.duration) {
+                self.anim_S = self.anim.play("zz_stand");
+            } else if (self.anim_S.time > tick * 4) {
+                if ($input.GetKeyState(KeyCode.X)) {
+                    self.anim_S = self.anim.play("zz_qlz_3");
+                }
             }
         }
-        this.AnimUpdateMap["zz_run_end"] = K_run_end.bind(this);
+        zz_qlz_2.bind(self);
+        self.AnimUpdateMap["zz_qlz_2"] = zz_qlz_2;
 
+        let zz_qlz_3 = () => {
+            let tick = 1 / self.anim_S.clip.sample;
+            if (self.anim_S.time >= self.anim_S.duration) {
+                self.anim_S = self.anim.play("zz_stand");
+            } else if (self.anim_S.time > tick * 7) {
+                if ($input.GetKeyState(KeyCode.X)) {
+                    self.anim_S = self.anim.play("zz_qlz_4");
+                }
+            }
+        }
+        zz_qlz_3.bind(self);
+        self.AnimUpdateMap["zz_qlz_3"] = zz_qlz_3;
+
+        let zz_qlz_4 = () => {
+
+            if (self.anim_S.time >= self.anim_S.duration) {
+                self.anim_S = self.anim.play("zz_stand");
+            }
+        }
+        zz_qlz_4.bind(self);
+        self.AnimUpdateMap["zz_qlz_4"] = zz_qlz_4;
     }
 
 
 
 
     /** 横向最大移动速度 */
-    private speed_X_Max: number = 250;
+    private speed_X_Max: number = 300;
 
 
     /** 摩擦力 */
-    private friction: number = this.speed_X_Max / 0.1;
+    private friction: number = this.speed_X_Max / 0.05;
     /** 加速度 */
     private acce: number = this.speed_X_Max / 0.1;
     /** 重力 */
@@ -117,8 +188,10 @@ export default class ZZ extends PlayerBases {
         axis += (l ? -1 : 0);
         axis += (r ? 1 : 0);
 
-        if (axis != 0)
+        if (axis != 0) {
             this.face = axis;
+            this.node.scaleX = 2 * axis;
+        }
 
         this.speed_X += (axis * this.acce * dt);
 
@@ -128,7 +201,9 @@ export default class ZZ extends PlayerBases {
             this.speed_X = s2 * this.face;
         }
 
-        this.speed_X = this.face * Math.min(this.speed_X_Max, Math.abs(this.speed_X))
+        if (Math.abs(this.speed_X) > this.speed_X_Max) {
+            this.speed_X = this.Sign(this.speed_X) * this.speed_X_Max;
+        }
 
 
 
@@ -138,12 +213,13 @@ export default class ZZ extends PlayerBases {
 
 
     update(dt) {
+        // return
+        // if ($input.GetKeyState(KeyCode.J) == KeyState.up)
+        // this.move(dt);
 
-        this.move(dt);
 
 
-
-        this.AnimUpdateMap[this.anim_S.name]();
+        this.AnimUpdateMap[this.anim_S.name](dt);
 
 
     }
