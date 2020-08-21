@@ -222,6 +222,8 @@
 
 
 export enum KeyCode {
+    /** 默认无按键 */
+    None = -1,
     Esc = 27,
     F1 = 112,
     F2 = 113,

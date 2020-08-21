@@ -6,12 +6,14 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import PlayerBases from "./Base/PlayerBase";
-import { $input } from "./KU/Input";
+import { $input, KeyState } from "./KU/Input";
 import { KeyCode } from "./KeyCode";
-import SkillCtrler_Base, { SkillCtrler_SwitchSkill } from "./SkillCtrler_Base";
+import SkillCtrler_Base, { SkillCtrler_SwitchSkill, SkillCtrler_SwitchDirection, SkillCtrler_Move, SkillCtrler_AttackMove } from "./SkillCtrler_Base";
 import SkillCtrlCfg_Base from "./SkillCtrl_Base";
-import AnimTrigger_Base, { AnimTrigger_KeyCode } from "./AnimTrigger_Base";
+import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Direction, AnimTrigger_KeyCode_State, AnimTrigger_NoneDirection, AnimTrigger_HasSpeed, AnimTrigger_SpeedToZore } from "./AnimTrigger_Base";
 import PlayerKeyCode from "./PlayerKeyCode";
+import SkillInfo_Base, { PlayerInfoData } from "./SkillInfo_Base";
+import FrameInfo from "./FrameInfo";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,16 +21,22 @@ const { ccclass, property } = cc._decorator;
 export default class ZZ extends PlayerBases {
 
 
+    public playerInfoData: PlayerInfoData;
 
+    public frameInfo: FrameInfo;
 
 
     onLoad() {
         super.onLoad();
+
+        this.playerInfoData = new PlayerInfoData();
+        this.playerInfoData.node = this.node;
+
+        this.frameInfo = this.node.getComponent(FrameInfo);
+
         this.anim_S = this.anim.play("zz_stand");
 
-
-        let as: cc.AnimationState = this.anim.getAnimationState("zz_stand");
-
+        this.anim.getAnimationState("zz_stand");
 
     }
 
@@ -176,47 +184,239 @@ export default class ZZ extends PlayerBases {
 
 
 
-        let ats0: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
-        ats0.keyCodeList.push(PlayerKeyCode.Attack);
+        // let ats0: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
+        // ats0.keyCodeList.push(PlayerKeyCode.Attack);
 
-        let sccb0: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
-        sccb0.TriggerList.push(ats0);
+        // let sccb0: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+        // sccb0.TriggerList.push(ats0);
 
-        let scss0: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
-        scss0.cfg = sccb0;
-        scss0.nextSkillName = "zz_qlz_1";
-        scss0.anim = self.anim;
+        // let scss0: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        // scss0.cfg = sccb0;
+        // scss0.nextSkillName = "zz_qlz_1";
+        // scss0.anim = self.anim;
 
-
-        this.ssss["zz_stand"] = scss0;
-
+        // this.ssss["zz_stand"] = scss0;
 
 
 
 
+        this.add_dic("zz_stand");
+        this.add_disssc("zz_stand", "zz_run")
+        let s: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        s.code = PlayerKeyCode.Attack;
+        s.stateList = [KeyState.firstDown];
+        this.addWTJQH(s, "zz_stand", "zz_qlz_1");
 
 
+        this.add_dxwec("zz_run", "zz_stand")
+        this.add_move("zz_run");
+
+        let s1: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        s1.code = PlayerKeyCode.Attack;
+        s1.stateList = [KeyState.firstDown];
+        this.addYTJQH(9, 12, "zz_qlz_1", "zz_qlz_2", s1, 0.2);
+        this.addYTJQH(12, 14, "zz_qlz_1", "zz_stand");
+        this.add_attackMove("zz_qlz_1");
 
 
-        let ats1: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
-        ats1.keyCodeList.push(PlayerKeyCode.Attack);
-
-        let sccb1: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
-        sccb1.TriggerList.push(ats1);
-
-        let scss1: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
-        scss1.cfg = sccb1;
-        scss1.nextSkillName = "zz_qlz_2";
-        scss1.anim = self.anim;
+        let s2: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        s2.code = PlayerKeyCode.Attack;
+        s2.stateList = [KeyState.firstDown];
+        this.addYTJQH(4, 8, "zz_qlz_2", "zz_qlz_3", s2, 0.2);
+        this.addYTJQH(8, 10, "zz_qlz_2", "zz_stand");
+        this.add_attackMove("zz_qlz_2");
 
 
-        this.ssss["zz_qlz_1"] = scss1;
+        let s3: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        s3.code = PlayerKeyCode.Attack;
+        s3.stateList = [KeyState.firstDown];
+        this.addYTJQH(7, 11, "zz_qlz_3", "zz_qlz_4", s3, 0.2);
+        this.addYTJQH(11, 13, "zz_qlz_3", "zz_stand");
+        this.add_attackMove("zz_qlz_3");
 
+
+        this.addYTJQH(11, 13, "zz_qlz_4", "zz_stand");
+        this.add_attackMove("zz_qlz_4");
 
     }
 
 
-    public ssss: { [name: string]: SkillCtrler_Base } = {}
+
+
+
+    public addWTJQH(keyCode: AnimTrigger_KeyCode_State, name: string, nextName: string) {
+
+        let si = this.ssss[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let ats: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
+        ats.keyCodeList.push(keyCode);
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+        sccb.TriggerList.push(ats);
+
+        let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss.cfg = sccb;
+        scss.nextSkillName = nextName;
+        scss.anim = this.anim;
+
+        si.CtrlerList.push(scss);
+
+        this.ssss[name] = si;
+    }
+
+
+
+
+    public add_attackMove(name: string) {
+
+        let si = this.ssss[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_Base = new AnimTrigger_Base();
+
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_AttackMove = new SkillCtrler_AttackMove();
+        scss.cfg = sccb;
+
+        si.CtrlerList.push(scss);
+
+        this.ssss[name] = si;
+    }
+
+
+    public addYTJQH(startFR: number, endFR: number, name: string, nextName: string, keyCodeStateLsit: AnimTrigger_KeyCode_State = null, delay: number = 0) {
+
+        let si = this.ssss[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        if (keyCodeStateLsit != null) {
+            let ats: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
+            ats.keyCodeList.push(keyCodeStateLsit);
+            ats.delay = delay;
+            sccb.TriggerList.push(ats);
+        }
+
+        let atfr: AnimTrigger_FrameRange = new AnimTrigger_FrameRange();
+        atfr.startFrame = startFR
+        atfr.endFrame = endFR
+        atfr.anim_s = this.anim.getAnimationState(name);
+
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss.cfg = sccb;
+        scss.nextSkillName = nextName;
+        scss.anim = this.anim;
+
+        si.CtrlerList.push(scss);
+
+        this.ssss[name] = si;
+    }
+
+
+
+    public add_dic(name: string) {
+        let si = this.ssss[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_Base = new AnimTrigger_Base();
+
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_SwitchDirection = new SkillCtrler_SwitchDirection();
+        scss.cfg = sccb;
+        scss.scale = 2;
+
+        si.CtrlerList.push(scss);
+
+        this.ssss[name] = si;
+    }
+
+    public add_disssc(name: string, nextName: string) {
+        let si = this.ssss[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_Direction = new AnimTrigger_Direction();
+
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss.cfg = sccb;
+        scss.nextSkillName = nextName;
+        scss.anim = this.anim;
+
+        si.CtrlerList.push(scss);
+
+        this.ssss[name] = si;
+    }
+
+    public add_move(name: string) {
+        let si = this.ssss[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_HasSpeed = new AnimTrigger_HasSpeed();
+
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_Move = new SkillCtrler_Move();
+        scss.cfg = sccb;
+
+        si.CtrlerList.push(scss);
+
+        this.ssss[name] = si;
+    }
+
+
+    public add_dxwec(name: string, nextName: string) {
+        let si = this.ssss[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_SpeedToZore = new AnimTrigger_SpeedToZore();
+
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss.cfg = sccb;
+        scss.nextSkillName = nextName;
+        scss.anim = this.anim;
+
+        si.CtrlerList.push(scss);
+
+        this.ssss[name] = si;
+    }
+
+
+
+
+    public ssss: { [name: string]: SkillInfo_Base } = {}
 
 
 
@@ -284,7 +484,8 @@ export default class ZZ extends PlayerBases {
 
 
         let cc = this.ssss[this.anim.currentClip.name];
-        cc.ctrler();
+        if (cc)
+            cc.execute(this.playerInfoData, this.frameInfo);
 
 
     }

@@ -163,9 +163,9 @@ export default class Input {
 
 export enum KeyState {
     up = 0,
-    firstDown,
-    down,
-    holdDown,
+    firstDown = 1,
+    down = 2,
+    holdDown = 3,
 }
 
 
