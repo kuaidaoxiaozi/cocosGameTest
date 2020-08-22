@@ -10,10 +10,11 @@ import { $input, KeyState } from "./KU/Input";
 import { KeyCode } from "./KeyCode";
 import SkillCtrler_Base, { SkillCtrler_SwitchSkill, SkillCtrler_SwitchDirection, SkillCtrler_Move, SkillCtrler_AttackMove } from "./SkillCtrler_Base";
 import SkillCtrlCfg_Base from "./SkillCtrl_Base";
-import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Direction, AnimTrigger_KeyCode_State, AnimTrigger_NoneDirection, AnimTrigger_HasSpeed, AnimTrigger_SpeedToZore } from "./AnimTrigger_Base";
+import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Direction, AnimTrigger_KeyCode_State, AnimTrigger_NoneDirection, AnimTrigger_HasSpeed, AnimTrigger_SpeedToZore, AnimTrigger_Collision } from "./AnimTrigger_Base";
 import PlayerKeyCode from "./PlayerKeyCode";
 import SkillInfo_Base, { PlayerInfoData } from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
+import { $GameTime } from "./KU/GameTime";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,12 +32,10 @@ export default class ZZ extends PlayerBases {
 
         this.playerInfoData = new PlayerInfoData();
         this.playerInfoData.node = this.node;
-
+        this.playerInfoData.player = this;
         this.frameInfo = this.node.getComponent(FrameInfo);
 
         this.anim_S = this.anim.play("zz_stand");
-
-        this.anim.getAnimationState("zz_stand");
 
     }
 
@@ -176,6 +175,8 @@ export default class ZZ extends PlayerBases {
 
 
 
+        self.zl.bind(self);
+        self.PlaterInfoList.push(self.zl);
 
 
 
@@ -246,7 +247,7 @@ export default class ZZ extends PlayerBases {
 
     public addWTJQH(keyCode: AnimTrigger_KeyCode_State, name: string, nextName: string) {
 
-        let si = this.ssss[name];
+        let si = this.SkillInfoList[name];
         if (!si) {
             si = new SkillInfo_Base();
         }
@@ -264,7 +265,7 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(scss);
 
-        this.ssss[name] = si;
+        this.SkillInfoList[name] = si;
     }
 
 
@@ -272,7 +273,7 @@ export default class ZZ extends PlayerBases {
 
     public add_attackMove(name: string) {
 
-        let si = this.ssss[name];
+        let si = this.SkillInfoList[name];
         if (!si) {
             si = new SkillInfo_Base();
         }
@@ -288,13 +289,13 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(scss);
 
-        this.ssss[name] = si;
+        this.SkillInfoList[name] = si;
     }
 
 
     public addYTJQH(startFR: number, endFR: number, name: string, nextName: string, keyCodeStateLsit: AnimTrigger_KeyCode_State = null, delay: number = 0) {
 
-        let si = this.ssss[name];
+        let si = this.SkillInfoList[name];
         if (!si) {
             si = new SkillInfo_Base();
         }
@@ -322,13 +323,13 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(scss);
 
-        this.ssss[name] = si;
+        this.SkillInfoList[name] = si;
     }
 
 
 
     public add_dic(name: string) {
-        let si = this.ssss[name];
+        let si = this.SkillInfoList[name];
         if (!si) {
             si = new SkillInfo_Base();
         }
@@ -345,11 +346,11 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(scss);
 
-        this.ssss[name] = si;
+        this.SkillInfoList[name] = si;
     }
 
     public add_disssc(name: string, nextName: string) {
-        let si = this.ssss[name];
+        let si = this.SkillInfoList[name];
         if (!si) {
             si = new SkillInfo_Base();
         }
@@ -367,11 +368,11 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(scss);
 
-        this.ssss[name] = si;
+        this.SkillInfoList[name] = si;
     }
 
     public add_move(name: string) {
-        let si = this.ssss[name];
+        let si = this.SkillInfoList[name];
         if (!si) {
             si = new SkillInfo_Base();
         }
@@ -387,12 +388,12 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(scss);
 
-        this.ssss[name] = si;
+        this.SkillInfoList[name] = si;
     }
 
 
     public add_dxwec(name: string, nextName: string) {
-        let si = this.ssss[name];
+        let si = this.SkillInfoList[name];
         if (!si) {
             si = new SkillInfo_Base();
         }
@@ -410,17 +411,41 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(scss);
 
-        this.ssss[name] = si;
+        this.SkillInfoList[name] = si;
     }
 
 
 
+    public PlaterInfoList: Function[] = []
+    public SkillInfoList: { [name: string]: SkillInfo_Base } = {}
 
-    public ssss: { [name: string]: SkillInfo_Base } = {}
+    /** 重力 */
+    public zl() {
+
+        let xxxx = new AnimTrigger_Collision();
+        xxxx.vec.x = 0
+        xxxx.vec.y = 1;
+
+        if (xxxx.IsTrigger(this.playerInfoData, this.frameInfo)) {
+            this.playerInfoData.speed_Y = 0;
+        } else {
+            this.playerInfoData.speed_Y += (this.playerInfoData.gravity * $GameTime.deltaTime);
+        }
+
+        this.Maxspeed();
+
+        this.node.y += this.playerInfoData.speed_Y * $GameTime.deltaTime
+    }
 
 
 
-
+    /** 截取最大速度，X Y 轴单独截取，并不是按向量方式整体截取 */
+    public Maxspeed() {
+        // if (Math.abs(this.playerInfoData.speed_X) > this.playerInfoData.speed_X_Max)
+        //     this.playerInfoData.speed_X = this.Sign(this.playerInfoData.speed_X) * this.playerInfoData.speed_X_Max
+        if (Math.abs(this.playerInfoData.speed_Y) > this.playerInfoData.speed_Y_Max)
+            this.playerInfoData.speed_Y = this.Sign(this.playerInfoData.speed_Y) * this.playerInfoData.speed_Y_Max;
+    }
 
 
 
@@ -483,7 +508,9 @@ export default class ZZ extends PlayerBases {
         // this.AnimUpdateMap[this.anim_S.name](dt);
 
 
-        let cc = this.ssss[this.anim.currentClip.name];
+        this.zl();
+
+        let cc = this.SkillInfoList[this.anim.currentClip.name];
         if (cc)
             cc.execute(this.playerInfoData, this.frameInfo);
 

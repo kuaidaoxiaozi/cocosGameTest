@@ -11,6 +11,9 @@ import { KeyCode } from "./KeyCode";
 import PlayerKeyCode from "./PlayerKeyCode";
 import { PlayerInfoData } from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
+import { QuadTreeManage } from "./KU/QuadTreeManage";
+import { AABBCollision } from "./KU/AABBCollision";
+import { $GameTime } from "./KU/GameTime";
 
 export enum AnimTrigeerEnum {
     /** 无判定 */
@@ -244,5 +247,44 @@ export class AnimTrigger_NoneDirection extends AnimTrigger_Base {
         }
         return false;
 
+    }
+}
+
+
+export class AnimTrigger_Collision extends AnimTrigger_Base {
+
+    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
+
+    public vec: cc.Vec2 = new cc.Vec2(0, 0);
+
+    public toDesc() {
+      
+    }
+
+    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+
+        let pcbb = info.player.GetCollBoxBound();
+
+        let xxx = Math.ceil(Math.abs(this.vec.x) / pcbb.width);
+        let yyy = Math.ceil(Math.abs(this.vec.y) / pcbb.height);
+
+        let spn = xxx > yyy ? xxx : yyy;
+
+        let spx = this.vec.x / spn;
+        let spy = this.vec.y / spn;
+
+
+        while (spn > 0) {
+            pcbb.x += spx;
+            pcbb.y += spy;
+            let qt = QuadTreeManage.Inst().Retrieve("", pcbb);
+            for (let q of qt) {
+                if (AABBCollision.HitboxToHitbox(q, pcbb))
+                    return true
+            }
+            spn--;
+        }
+
+        return false;
     }
 }

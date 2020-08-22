@@ -7,6 +7,8 @@
 
 import SkillCtrler_Base from "./SkillCtrler_Base";
 import FrameInfo from "./FrameInfo";
+import { Bound } from "./KU/QuadTree";
+import PlayerBases from "./Base/PlayerBase";
 
 
 export class PlayerInfoData {
@@ -24,13 +26,18 @@ export class PlayerInfoData {
 
     /** 横向最大移动速度 */
     public speed_X_Max: number = 300;
+    /** 纵向最大移动速度 */
+    public speed_Y_Max: number = 300;
 
     /** 摩擦力 */
     public friction: number = this.speed_X_Max / 0.05;
     /** 加速度 */
     public acce: number = this.speed_X_Max / 0.05;
     /** 重力 */
-    public gravity: number = 180;
+    public gravity: number = -180;
+
+    /** 玩家基类 */
+    public player: PlayerBases;
 
 }
 

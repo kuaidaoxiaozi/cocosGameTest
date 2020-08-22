@@ -75,23 +75,8 @@ export class SkillCtrler_SwitchDirection extends SkillCtrler_Base {
 export class SkillCtrler_Move extends SkillCtrler_Base {
 
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
-
-        // let l = $input.GetKey(PlayerKeyCode.Left);
-        // let r = $input.GetKey(PlayerKeyCode.Right);
-
-        // let axis = 0;
-        // axis += (l ? -1 : 0);
-        // axis += (r ? 1 : 0);
-
-        // if (axis != 0) {
-        //     info.face = axis;
-        //     this.node.scaleX = axis * this.scale;
-        // }
-
         this.move(info, frameInfo);
     }
-
-
 
     private move(info: PlayerInfoData, frameInfo: FrameInfo) {
 
@@ -128,5 +113,16 @@ export class SkillCtrler_Move extends SkillCtrler_Base {
         info.node.x += info.speed_X * dt;
     }
 
+}
+
+/** 下落 */
+export class SkillCtrler_Descend extends SkillCtrler_Base {
+
+
+
+    protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
+
+
+    }
 
 }
