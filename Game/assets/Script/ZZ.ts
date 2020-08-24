@@ -10,14 +10,15 @@ import { $input, KeyState } from "./KU/Input";
 import { KeyCode } from "./KeyCode";
 import SkillCtrler_Base, { SkillCtrler_SwitchSkill, SkillCtrler_SwitchDirection, SkillCtrler_Move, SkillCtrler_AttackMove, SkillCtrler_Descend } from "./SkillCtrler_Base";
 import SkillCtrlCfg_Base from "./SkillCtrl_Base";
-import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Direction, AnimTrigger_KeyCode_State, AnimTrigger_NoneDirection, AnimTrigger_HasSpeed, AnimTrigger_SpeedToZore, AnimTrigger_Collision, AnimTrigger_OnGround, AnimTrigger_Levitate } from "./AnimTrigger_Base";
+import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Input_H, AnimTrigger_KeyCode_State, AnimTrigger_Speed_H, AnimTrigger_Collision, AnimTrigger_OnGround, AnimTrigger_Levitate } from "./AnimTrigger_Base";
 import PlayerKeyCode from "./PlayerKeyCode";
-import SkillInfo_Base, { PlayerInfoData } from "./SkillInfo_Base";
+import SkillInfo_Base from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
 import { $GameTime } from "./KU/GameTime";
 import ActorBehavior from "./ActorBehavior/ActorBehavior";
 import InputBehavior from "./ActorBehavior/InputBehavior";
 import CollisionBehavior from "./ActorBehavior/CollisionBehavior";
+import PlayerInfoData from "./PlayerInfoData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,7 +37,7 @@ export default class ZZ extends PlayerBases {
         this.playerInfoData = new PlayerInfoData();
         this.playerInfoData.node = this.node;
         this.playerInfoData.playerCollision = this;
-        this.frameInfo = this.node.getComponent(FrameInfo);
+        this.frameInfo = this.anim.node.getComponent(FrameInfo);
 
         this.anim.name = "zz"
         this.anim_S = this.anim.play("zz_stand");
@@ -196,6 +197,7 @@ export default class ZZ extends PlayerBases {
 
 
 
+        // Behavior 事件
 
         let ibh = new InputBehavior();
         ibh.pi = this.playerInfoData;
@@ -204,6 +206,8 @@ export default class ZZ extends PlayerBases {
         let cbh = new CollisionBehavior();
         cbh.playerInfo = this.playerInfoData;
         this.ActorBeh.push(cbh)
+
+
 
 
 
@@ -325,7 +329,6 @@ export default class ZZ extends PlayerBases {
         let atfr: AnimTrigger_FrameRange = new AnimTrigger_FrameRange();
         atfr.startFrame = startFR
         atfr.endFrame = endFR
-        atfr.anim_s = this.anim.getAnimationState(name);
 
         sccb.TriggerList.push(atfr);
 
@@ -370,7 +373,7 @@ export default class ZZ extends PlayerBases {
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
 
-        let atfr: AnimTrigger_Direction = new AnimTrigger_Direction();
+        let atfr: AnimTrigger_Input_H = new AnimTrigger_Input_H();
 
         sccb.TriggerList.push(atfr);
 
@@ -392,7 +395,7 @@ export default class ZZ extends PlayerBases {
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
 
-        let atfr: AnimTrigger_HasSpeed = new AnimTrigger_HasSpeed();
+        let atfr: AnimTrigger_Speed_H = new AnimTrigger_Speed_H();
 
         sccb.TriggerList.push(atfr);
 
@@ -413,9 +416,11 @@ export default class ZZ extends PlayerBases {
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
 
-        let atfr: AnimTrigger_SpeedToZore = new AnimTrigger_SpeedToZore();
+        let atfr: AnimTrigger_Speed_H = new AnimTrigger_Speed_H();
+        let atfr1: AnimTrigger_Input_H = new AnimTrigger_Input_H();
 
         sccb.TriggerList.push(atfr);
+        sccb.TriggerList.push(atfr1);
 
         let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
         scss.cfg = sccb;
@@ -494,32 +499,13 @@ export default class ZZ extends PlayerBases {
     public SkillInfoList: { [name: string]: SkillInfo_Base } = {}
     public ActorBeh: ActorBehavior[] = [];
 
-    /** 重力 */
-    public zl() {
-
-        let xxxx = new AnimTrigger_Collision();
-        xxxx.vec.x = 0
-        xxxx.vec.y = 1;
-
-        if (xxxx.IsTrigger(this.playerInfoData, this.frameInfo)) {
-            this.playerInfoData.speed_Y = 0;
-        } else {
-            this.playerInfoData.speed_Y += (this.playerInfoData.gravity * $GameTime.deltaTime);
-        }
-
-        this.Maxspeed();
-
-        this.node.y += this.playerInfoData.speed_Y * $GameTime.deltaTime
-    }
 
 
 
     /** 截取最大速度，X Y 轴单独截取，并不是按向量方式整体截取 */
     public Maxspeed() {
-        // if (Math.abs(this.playerInfoData.speed_X) > this.playerInfoData.speed_X_Max)
-        //     this.playerInfoData.speed_X = this.Sign(this.playerInfoData.speed_X) * this.playerInfoData.speed_X_Max
-        if (Math.abs(this.playerInfoData.speed_Y) > this.playerInfoData.speed_Y_Max)
-            this.playerInfoData.speed_Y = this.Sign(this.playerInfoData.speed_Y) * this.playerInfoData.speed_Y_Max;
+        if (Math.abs(this.playerInfoData.speed.speed_Y) > this.playerInfoData.speed.speed_Y_Max)
+            this.playerInfoData.speed.speed_Y = this.Sign(this.playerInfoData.speed.speed_Y) * this.playerInfoData.speed.speed_Y_Max;
     }
 
 

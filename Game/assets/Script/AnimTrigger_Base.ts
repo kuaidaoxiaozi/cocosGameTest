@@ -9,11 +9,11 @@ import { $input, KeyState } from "./KU/Input";
 import PlayerInputBuffer from "./PlayerInputBuffer";
 import { KeyCode } from "./KeyCode";
 import PlayerKeyCode from "./PlayerKeyCode";
-import { PlayerInfoData, playerInput } from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
 import { QuadTreeManage } from "./KU/QuadTreeManage";
 import { AABBCollision } from "./KU/AABBCollision";
 import { $GameTime } from "./KU/GameTime";
+import PlayerInfoData from "./PlayerInfoData";
 
 export enum AnimTrigeerEnum {
     /** 无判定 */
@@ -24,20 +24,25 @@ export enum AnimTrigeerEnum {
     frameRange,
     /** 方向输入 */
     direction,
-
-
     /** 碰撞 */
-
-
-
 }
 
+/** Trigeer 基类 */
 export default class AnimTrigger_Base {
+    public constructor(isNOT = true) {
+        this.IsNOT = isNOT;
+    }
 
+    /** 结果取反用的 */
+    private IsNOT: boolean = true;
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.nothing;
     public getType(): AnimTrigeerEnum { return this._type }
 
     public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+        return this.IsNOT == this.Trigger(info, frameInfo);
+    }
+
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
         return true
     }
 
@@ -49,12 +54,14 @@ export class AnimTrigger_KeyCode_State {
     public stateList: KeyState[] = [KeyState.firstDown, KeyState.down, KeyState.holdDown];
 }
 
+/** 有按键输入 */
 export class AnimTrigger_KeyCode extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.keyCode;
 
+    /** 输入缓存时间 */
     public delay: number = 0
-
+    /** 按键列表 */
     public keyCodeList: AnimTrigger_KeyCode_State[] = [];
 
     public toDesc() {
@@ -65,7 +72,7 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
         console.log(str);
     }
 
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
         for (let i = 0; i < this.keyCodeList.length; i++) {
 
             let nowInputState = $input.GetKeyState(this.keyCodeList[i].code);
@@ -78,7 +85,6 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
                 // if ($input.GetKeyState(this.keyCodeList[i]) <= 0) {
                 return false
             }
-
         }
         return true;
     }
@@ -86,167 +92,66 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
 
 
 
-
-
-
+/** 帧范围 */
 export class AnimTrigger_FrameRange extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.frameRange;
 
+    /** 起始帧 */
     public startFrame: number = 0;
+    /** 结束帧 */
     public endFrame: number = 0;
-
-    public anim_s: cc.AnimationState;
 
     public toDesc() {
         let str = "帧范围事件，起始帧：" + this.startFrame + "  终止指针：" + this.endFrame;
         console.log(str);
     }
 
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
-        let time = 1 / this.anim_s.clip.sample;
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+        let anim_s = info.anim.getAnimationState(info.anim.currentClip.name);
+
+        let time = 1 / anim_s.clip.sample;
 
         let startTime = time * this.startFrame;
         let endTime = time * this.endFrame;
 
-        if (this.anim_s.time < startTime && this.anim_s.time + time > startTime) {
+        if (anim_s.time < startTime && anim_s.time + time > startTime) {
             return true;
         }
-        if (this.anim_s.time < startTime || this.anim_s.time > endTime) {
+        if (anim_s.time < startTime || anim_s.time > endTime) {
             return false;
         }
         return true;
     }
 }
 
-export class AnimTrigger_Direction extends AnimTrigger_Base {
+
+/** 有方向输入 - H */
+export class AnimTrigger_Input_H extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
 
-    public toDesc() {
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
 
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-        let str = "方向指令：" + axis;
-        console.log(str);
-    }
-
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
-
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
-
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-
-        if (axis != 0) {
+        if (info.playerInpout.X != 0) {
             return true;
         }
         return false;
-
     }
 }
 
-export class AnimTrigger_HasSpeed extends AnimTrigger_Base {
+
+/** 有速度 - H */
+export class AnimTrigger_Speed_H extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
 
-    public toDesc() {
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
 
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-        let str = "方向指令：" + axis;
-        console.log(str);
-    }
-
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
-
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
-
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-
-        if (info.speed_X == 0 && axis == 0) {
+        if (info.speed.speed_X == 0) {
             return false;
         }
         return true;
-
-    }
-}
-
-
-export class AnimTrigger_SpeedToZore extends AnimTrigger_Base {
-
-    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
-
-    public toDesc() {
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
-
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-        let str = "方向指令：" + axis;
-        console.log(str);
-    }
-
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
-
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
-
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-
-        if (info.speed_X == 0 && axis == 0) {
-            return true;
-        }
-        return false;
-
-    }
-}
-
-
-
-export class AnimTrigger_NoneDirection extends AnimTrigger_Base {
-
-    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
-
-    public toDesc() {
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
-
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-        let str = "方向指令：" + axis;
-        console.log(str);
-    }
-
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
-
-        let l = $input.GetKey(PlayerKeyCode.Left);
-        let r = $input.GetKey(PlayerKeyCode.Right);
-
-        let axis = 0;
-        axis += (l ? -1 : 0);
-        axis += (r ? 1 : 0);
-
-        if (axis == 0) {
-            return true;
-        }
-        return false;
-
     }
 }
 
@@ -257,11 +162,7 @@ export class AnimTrigger_Collision extends AnimTrigger_Base {
 
     public vec: cc.Vec2 = new cc.Vec2(0, 0);
 
-    public toDesc() {
-
-    }
-
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
 
         let pcbb = info.playerCollision.GetCollBoxBound();
 
@@ -290,18 +191,12 @@ export class AnimTrigger_Collision extends AnimTrigger_Base {
 }
 
 
-
-/** 在地面 */
+/** 在地面 / 取反 - 浮空*/
 export class AnimTrigger_OnGround extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
 
-
-    public toDesc() {
-
-    }
-
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
         if (info.collision_Botton)
             return true
         return false
@@ -313,11 +208,7 @@ export class AnimTrigger_Levitate extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
 
-    public toDesc() {
-
-    }
-
-    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
         if (info.collision_Botton)
             return false
         return true

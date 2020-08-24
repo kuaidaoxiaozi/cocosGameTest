@@ -37,9 +37,6 @@ export default class PlayerBases extends EntityBase implements I_CollisionMethod
 
     onLoad() {
         super.onLoad();
-        if (this.anim == null)
-            this.anim = this.node.getComponent(cc.Animation);
-
     }
 
 

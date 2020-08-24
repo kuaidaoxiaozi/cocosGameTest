@@ -8,12 +8,12 @@
 import ActorBehavior from "./ActorBehavior";
 import { $input } from "../KU/Input";
 import PlayerKeyCode from "../PlayerKeyCode";
-import SkillInfo_Base, { PlayerInfoData, playerInput } from "../SkillInfo_Base";
+import SkillInfo_Base, { PlayerInfoData, I_PlayerInput } from "../SkillInfo_Base";
 
 /** 检测方向指令输入 */
 export default class InputBehavior extends ActorBehavior {
 
-    public pi: playerInput;
+    public pi: I_PlayerInput;
 
     private sss() {
         if (this.pi) {
