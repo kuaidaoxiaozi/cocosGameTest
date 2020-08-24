@@ -118,11 +118,14 @@ export class SkillCtrler_Move extends SkillCtrler_Base {
 /** 下落 */
 export class SkillCtrler_Descend extends SkillCtrler_Base {
 
-
-
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
 
+        info.speed_Y += info.gravity * $GameTime.deltaTime;
+        if (Math.abs(info.speed_Y) > info.speed_Y_Max) {
+            info.speed_Y = this.Sign(info.speed_Y) * info.speed_Y_Max;
+        }
 
+        info.node.y += info.speed_Y * $GameTime.deltaTime;
     }
 
 }

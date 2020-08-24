@@ -8,13 +8,16 @@
 import PlayerBases from "./Base/PlayerBase";
 import { $input, KeyState } from "./KU/Input";
 import { KeyCode } from "./KeyCode";
-import SkillCtrler_Base, { SkillCtrler_SwitchSkill, SkillCtrler_SwitchDirection, SkillCtrler_Move, SkillCtrler_AttackMove } from "./SkillCtrler_Base";
+import SkillCtrler_Base, { SkillCtrler_SwitchSkill, SkillCtrler_SwitchDirection, SkillCtrler_Move, SkillCtrler_AttackMove, SkillCtrler_Descend } from "./SkillCtrler_Base";
 import SkillCtrlCfg_Base from "./SkillCtrl_Base";
-import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Direction, AnimTrigger_KeyCode_State, AnimTrigger_NoneDirection, AnimTrigger_HasSpeed, AnimTrigger_SpeedToZore, AnimTrigger_Collision } from "./AnimTrigger_Base";
+import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Direction, AnimTrigger_KeyCode_State, AnimTrigger_NoneDirection, AnimTrigger_HasSpeed, AnimTrigger_SpeedToZore, AnimTrigger_Collision, AnimTrigger_OnGround, AnimTrigger_Levitate } from "./AnimTrigger_Base";
 import PlayerKeyCode from "./PlayerKeyCode";
 import SkillInfo_Base, { PlayerInfoData } from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
 import { $GameTime } from "./KU/GameTime";
+import ActorBehavior from "./ActorBehavior/ActorBehavior";
+import InputBehavior from "./ActorBehavior/InputBehavior";
+import CollisionBehavior from "./ActorBehavior/CollisionBehavior";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,9 +35,10 @@ export default class ZZ extends PlayerBases {
 
         this.playerInfoData = new PlayerInfoData();
         this.playerInfoData.node = this.node;
-        this.playerInfoData.player = this;
+        this.playerInfoData.playerCollision = this;
         this.frameInfo = this.node.getComponent(FrameInfo);
 
+        this.anim.name = "zz"
         this.anim_S = this.anim.play("zz_stand");
 
     }
@@ -175,16 +179,6 @@ export default class ZZ extends PlayerBases {
 
 
 
-        self.zl.bind(self);
-        self.PlaterInfoList.push(self.zl);
-
-
-
-        this.anim.name = "zz"
-
-
-
-
         // let ats0: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
         // ats0.keyCodeList.push(PlayerKeyCode.Attack);
 
@@ -201,16 +195,35 @@ export default class ZZ extends PlayerBases {
 
 
 
+
+
+        let ibh = new InputBehavior();
+        ibh.pi = this.playerInfoData;
+        this.ActorBeh.push(ibh)
+
+        let cbh = new CollisionBehavior();
+        cbh.playerInfo = this.playerInfoData;
+        this.ActorBeh.push(cbh)
+
+
+
         this.add_dic("zz_stand");
         this.add_disssc("zz_stand", "zz_run")
         let s: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
         s.code = PlayerKeyCode.Attack;
         s.stateList = [KeyState.firstDown];
         this.addWTJQH(s, "zz_stand", "zz_qlz_1");
+        this.add_AnimTrigger_levitate("zz_stand", "zz_jump");
+
+
+        this.add_onG("zz_jump", "zz_stand");
+        this.add_onGxx("zz_jump");
+
 
 
         this.add_dxwec("zz_run", "zz_stand")
         this.add_move("zz_run");
+        this.add_AnimTrigger_levitate("zz_run", "zz_jump");
 
         let s1: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
         s1.code = PlayerKeyCode.Attack;
@@ -342,7 +355,7 @@ export default class ZZ extends PlayerBases {
 
         let scss: SkillCtrler_SwitchDirection = new SkillCtrler_SwitchDirection();
         scss.cfg = sccb;
-        scss.scale = 2;
+        scss.scale = 1;
 
         si.CtrlerList.push(scss);
 
@@ -415,9 +428,71 @@ export default class ZZ extends PlayerBases {
     }
 
 
+    public add_AnimTrigger_levitate(name: string, nextName: string) {
+        let si = this.SkillInfoList[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
 
-    public PlaterInfoList: Function[] = []
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_Levitate = new AnimTrigger_Levitate();
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss.cfg = sccb;
+        scss.nextSkillName = nextName;
+        scss.anim = this.anim;
+
+        si.CtrlerList.push(scss);
+
+        this.SkillInfoList[name] = si;
+    }
+
+    public add_onG(name: string, nextName: string) {
+        let si = this.SkillInfoList[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_OnGround = new AnimTrigger_OnGround();
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
+        scss.cfg = sccb;
+        scss.nextSkillName = nextName;
+        scss.anim = this.anim;
+
+        si.CtrlerList.push(scss);
+
+        this.SkillInfoList[name] = si;
+    }
+
+    public add_onGxx(name: string) {
+        let si = this.SkillInfoList[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        let atfr: AnimTrigger_Levitate = new AnimTrigger_Levitate();
+        sccb.TriggerList.push(atfr);
+
+        let scss: SkillCtrler_Descend = new SkillCtrler_Descend();
+        scss.cfg = sccb;
+
+        si.CtrlerList.push(scss);
+
+        this.SkillInfoList[name] = si;
+    }
+
+
+
     public SkillInfoList: { [name: string]: SkillInfo_Base } = {}
+    public ActorBeh: ActorBehavior[] = [];
 
     /** 重力 */
     public zl() {
@@ -508,7 +583,11 @@ export default class ZZ extends PlayerBases {
         // this.AnimUpdateMap[this.anim_S.name](dt);
 
 
-        this.zl();
+        // this.zl();
+
+        for (let i = 0; i < this.ActorBeh.length; i++) {
+            this.ActorBeh[i].update();
+        }
 
         let cc = this.SkillInfoList[this.anim.currentClip.name];
         if (cc)

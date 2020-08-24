@@ -9,11 +9,12 @@ import EntityBase from "./EntityBase";
 import { Bound } from "../KU/QuadTree";
 import { AABBCollision } from "../KU/AABBCollision";
 import { QuadTreeManage } from "../KU/QuadTreeManage";
+import I_CollisionMethod from "../Interface/I_CollisionMethod";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class PlayerBases extends EntityBase {
+export default class PlayerBases extends EntityBase implements I_CollisionMethod {
 
     @property(cc.Node)
     collBox: cc.Node = null;
@@ -34,15 +35,6 @@ export default class PlayerBases extends EntityBase {
     public anim_S: cc.AnimationState;
 
 
-    /** 是否进行动画位移 */
-    @property(Boolean)
-    public IsAnimOffset: Boolean = false;
-    /** 动画位移量 */
-    @property(Number)
-    public AnimOffset: number = 0;
-
-
-
     onLoad() {
         super.onLoad();
         if (this.anim == null)
@@ -52,7 +44,11 @@ export default class PlayerBases extends EntityBase {
 
 
     public GetCollBoxBound(): Bound {
-        let cb = this.GetBound(this.collBox);
+        let cb = this.GetSelfBound();
+        cb.x += this.collBox.x;
+        cb.y += this.collBox.y;
+        cb.width = this.collBox.width;
+        cb.height = this.collBox.height;
         return cb;
     }
 

@@ -72,37 +72,65 @@ export class QuadTree {
         let _x = this.bounds.x
         let _y = this.bounds.y;
 
+
         //top right node
-        this.nodes[QuadtreeDir.NE] = new QuadTree({
-            x: _x + subWidth,
-            y: _y + subHeight,
-            width: subWidth,
-            height: subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
+        let ne = new Bound;
+        ne.x = _x + subWidth
+        ne.y = _y + subHeight
+        ne.width = subWidth
+        ne.height = subHeight
+        this.nodes[QuadtreeDir.NE] = new QuadTree(ne, this.max_objects, this.max_levels, nextLevel);
+        // this.nodes[QuadtreeDir.NE] = new QuadTree({
+        //     x: _x + subWidth,
+        //     y: _y + subHeight,
+        //     width: subWidth,
+        //     height: subHeight
+        // }, this.max_objects, this.max_levels, nextLevel);
+
 
         //top left node
-        this.nodes[QuadtreeDir.NW] = new QuadTree({
-            x: _x,
-            y: _y + subHeight,
-            width: subWidth,
-            height: subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
+        let nw = new Bound;
+        nw.x = _x
+        nw.y = _y + subHeight
+        nw.width = subWidth
+        nw.height = subHeight
+        this.nodes[QuadtreeDir.NW] = new QuadTree(nw, this.max_objects, this.max_levels, nextLevel);
+        // this.nodes[QuadtreeDir.NW] = new QuadTree({
+        //     x: _x,
+        //     y: _y + subHeight,
+        //     width: subWidth,
+        //     height: subHeight
+        // }, this.max_objects, this.max_levels, nextLevel);
+
 
         //bottom left node
-        this.nodes[QuadtreeDir.SW] = new QuadTree({
-            x: _x,
-            y: _y,
-            width: subWidth,
-            height: subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
+        let sw = new Bound;
+        sw.x = _x
+        sw.y = _y
+        sw.width = subWidth
+        sw.height = subHeight
+        this.nodes[QuadtreeDir.SW] = new QuadTree(sw, this.max_objects, this.max_levels, nextLevel);
+        // this.nodes[QuadtreeDir.SW] = new QuadTree({
+        //     x: _x,
+        //     y: _y,
+        //     width: subWidth,
+        //     height: subHeight
+        // }, this.max_objects, this.max_levels, nextLevel);
+
 
         //bottom right node
-        this.nodes[QuadtreeDir.SE] = new QuadTree({
-            x: _x + subWidth,
-            y: _y,
-            width: subWidth,
-            height: subHeight
-        }, this.max_objects, this.max_levels, nextLevel);
+        let se = new Bound;
+        se.x = _x + subWidth
+        se.y = _y
+        se.width = subWidth
+        se.height = subHeight
+        this.nodes[QuadtreeDir.SE] = new QuadTree(se, this.max_objects, this.max_levels, nextLevel);
+        // this.nodes[QuadtreeDir.SE] = new QuadTree({
+        //     x: _x + subWidth,
+        //     y: _y,
+        //     width: subWidth,
+        //     height: subHeight
+        // }, this.max_objects, this.max_levels, nextLevel);
     };
 
 
@@ -264,4 +292,13 @@ export class Bound {
     public y: number = 0;
     public width: number = 0;
     public height: number = 0;
+
+    public copy(): Bound {
+        let b = new Bound;
+        b.x = this.x
+        b.y = this.y
+        b.width = this.width
+        b.height = this.height
+        return b;
+    }
 }

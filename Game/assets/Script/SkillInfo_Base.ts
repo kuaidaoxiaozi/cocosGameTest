@@ -9,9 +9,19 @@ import SkillCtrler_Base from "./SkillCtrler_Base";
 import FrameInfo from "./FrameInfo";
 import { Bound } from "./KU/QuadTree";
 import PlayerBases from "./Base/PlayerBase";
+import I_CollisionMethod from "./Interface/I_CollisionMethod";
 
 
-export class PlayerInfoData {
+export interface playerInput {
+    /** X 轴按键方向 */
+    input_X: number;
+    /** Y 轴按键方向 */
+    input_Y: number;
+}
+
+
+
+export class PlayerInfoData implements playerInput {
 
     /** 物体所在 Node */
     public node: cc.Node;
@@ -23,6 +33,13 @@ export class PlayerInfoData {
     public speed_X = 0;
     /** Y 轴速度 */
     public speed_Y = 0;
+
+
+    /** X 轴按键方向 */
+    public input_X: number = 0;
+    /** Y 轴按键方向 */
+    public input_Y: number = 0;
+
 
     /** 横向最大移动速度 */
     public speed_X_Max: number = 300;
@@ -36,8 +53,14 @@ export class PlayerInfoData {
     /** 重力 */
     public gravity: number = -180;
 
-    /** 玩家基类 */
-    public player: PlayerBases;
+
+    public collision_Left: boolean = false
+    public collision_Right: boolean = false
+    public collision_Top: boolean = false
+    public collision_Botton: boolean = false
+
+    /** 玩家碰撞方法 */
+    public playerCollision: I_CollisionMethod;
 
 }
 

@@ -9,7 +9,7 @@ import { $input, KeyState } from "./KU/Input";
 import PlayerInputBuffer from "./PlayerInputBuffer";
 import { KeyCode } from "./KeyCode";
 import PlayerKeyCode from "./PlayerKeyCode";
-import { PlayerInfoData } from "./SkillInfo_Base";
+import { PlayerInfoData, playerInput } from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
 import { QuadTreeManage } from "./KU/QuadTreeManage";
 import { AABBCollision } from "./KU/AABBCollision";
@@ -258,12 +258,12 @@ export class AnimTrigger_Collision extends AnimTrigger_Base {
     public vec: cc.Vec2 = new cc.Vec2(0, 0);
 
     public toDesc() {
-      
+
     }
 
     public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
 
-        let pcbb = info.player.GetCollBoxBound();
+        let pcbb = info.playerCollision.GetCollBoxBound();
 
         let xxx = Math.ceil(Math.abs(this.vec.x) / pcbb.width);
         let yyy = Math.ceil(Math.abs(this.vec.y) / pcbb.height);
@@ -286,5 +286,40 @@ export class AnimTrigger_Collision extends AnimTrigger_Base {
         }
 
         return false;
+    }
+}
+
+
+
+/** 在地面 */
+export class AnimTrigger_OnGround extends AnimTrigger_Base {
+
+    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
+
+
+    public toDesc() {
+
+    }
+
+    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+        if (info.collision_Botton)
+            return true
+        return false
+    }
+}
+
+/** 浮空 */
+export class AnimTrigger_Levitate extends AnimTrigger_Base {
+
+    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
+
+    public toDesc() {
+
+    }
+
+    public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+        if (info.collision_Botton)
+            return false
+        return true
     }
 }
