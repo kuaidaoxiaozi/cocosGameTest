@@ -8,12 +8,12 @@
 
 export default interface I_Speed {
     /** X 轴速度 */
-    speed_X: number
+    Speed_X: number
     /** Y 轴速度 */
-    speed_Y: number
+    Speed_Y: number
 
     /** 横向最大移动速度 */
-    speed_X_Max: number
+    Speed_X_Max: number
     /** 纵向最大移动速度 */
-    speed_Y_Max: number
+    Speed_Y_Max: number
 }

@@ -7,8 +7,8 @@
 
 import EntityBase from "./EntityBase";
 import { Bound } from "../KU/QuadTree";
-import { AABBCollision } from "../KU/AABBCollision";
-import { QuadTreeManage } from "../KU/QuadTreeManage";
+import AABBCollision from "../KU/AABBCollision";
+import QuadTreeManage from "../KU/QuadTreeManage";
 import I_CollisionMethod from "../Interface/I_CollisionMethod";
 
 const { ccclass, property } = cc._decorator;

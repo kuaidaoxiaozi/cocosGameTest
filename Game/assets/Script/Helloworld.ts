@@ -1,6 +1,6 @@
 import { $input } from "./KU/Input";
 import { QuadTree, Bound } from "./KU/QuadTree";
-import { QuadTreeManage } from "./KU/QuadTreeManage";
+import QuadTreeManage from "./KU/QuadTreeManage";
 import { $GameTime } from "./KU/GameTime";
 import PlayerInputBuffer from "./PlayerInputBuffer";
 

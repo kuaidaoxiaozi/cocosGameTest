@@ -14,6 +14,7 @@ export default class PlayerKeyCode {
     public static Right: KeyCode = KeyCode.RightArrow;
 
     public static Attack: KeyCode = KeyCode.X;
+    public static Jump: KeyCode = KeyCode.C;
 
 
 }

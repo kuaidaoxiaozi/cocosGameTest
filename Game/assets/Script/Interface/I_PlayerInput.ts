@@ -8,7 +8,7 @@
 
 export default interface I_PlayerInput {
     /** X 轴按键方向 */
-    X: number;
+    Input_X: number;
     /** Y 轴按键方向 */
-    Y: number;
+    Input_Y: number;
 }

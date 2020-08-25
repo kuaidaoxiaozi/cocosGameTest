@@ -8,7 +8,7 @@
 import ActorBehavior from "./ActorBehavior";
 import { $input } from "../KU/Input";
 import PlayerKeyCode from "../PlayerKeyCode";
-import SkillInfo_Base, { PlayerInfoData, I_PlayerInput } from "../SkillInfo_Base";
+import I_PlayerInput from "../Interface/I_PlayerInput";
 
 /** 检测方向指令输入 */
 export default class InputBehavior extends ActorBehavior {
@@ -25,7 +25,7 @@ export default class InputBehavior extends ActorBehavior {
             input += (l ? -1 : 0);
             input += (r ? 1 : 0);
 
-            this.pi.input_X = input;
+            this.pi.Input_X = input;
         }
     }
 

@@ -10,8 +10,8 @@ import PlayerInputBuffer from "./PlayerInputBuffer";
 import { KeyCode } from "./KeyCode";
 import PlayerKeyCode from "./PlayerKeyCode";
 import FrameInfo from "./FrameInfo";
-import { QuadTreeManage } from "./KU/QuadTreeManage";
-import { AABBCollision } from "./KU/AABBCollision";
+import QuadTreeManage from "./KU/QuadTreeManage";
+import AABBCollision from "./KU/AABBCollision";
 import { $GameTime } from "./KU/GameTime";
 import PlayerInfoData from "./PlayerInfoData";
 
@@ -29,6 +29,9 @@ export enum AnimTrigeerEnum {
 
 /** Trigeer 基类 */
 export default class AnimTrigger_Base {
+    /**
+     * @param isNOT 是否取反
+     */
     public constructor(isNOT = true) {
         this.IsNOT = isNOT;
     }
@@ -44,6 +47,27 @@ export default class AnimTrigger_Base {
 
     protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
         return true
+    }
+
+    public toDesc() { }
+}
+
+/** Trigeer 或门Bos，用来并联多个条件 */
+export class AnimTrigger_OrBox extends AnimTrigger_Base {
+
+    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.nothing;
+
+    public TriggerList: AnimTrigger_Base[] = [];
+
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+
+        for (let t of this.TriggerList) {
+            if (t.IsTrigger(info, frameInfo)) {
+                return true
+            }
+        }
+
+        return false
     }
 
     public toDesc() { }
@@ -133,7 +157,7 @@ export class AnimTrigger_Input_H extends AnimTrigger_Base {
 
     protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
 
-        if (info.playerInpout.X != 0) {
+        if (info.Input_X != 0) {
             return true;
         }
         return false;
@@ -148,7 +172,21 @@ export class AnimTrigger_Speed_H extends AnimTrigger_Base {
 
     protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
 
-        if (info.speed.speed_X == 0) {
+        if (info.Speed_X == 0) {
+            return false;
+        }
+        return true;
+    }
+}
+
+/** 有速度 - H */
+export class AnimTrigger_Speed_V extends AnimTrigger_Base {
+
+    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
+
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+
+        if (info.Speed_Y == 0) {
             return false;
         }
         return true;
@@ -156,6 +194,7 @@ export class AnimTrigger_Speed_H extends AnimTrigger_Base {
 }
 
 
+/** 有碰撞 */
 export class AnimTrigger_Collision extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
@@ -200,17 +239,5 @@ export class AnimTrigger_OnGround extends AnimTrigger_Base {
         if (info.collision_Botton)
             return true
         return false
-    }
-}
-
-/** 浮空 */
-export class AnimTrigger_Levitate extends AnimTrigger_Base {
-
-    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
-
-    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
-        if (info.collision_Botton)
-            return false
-        return true
     }
 }

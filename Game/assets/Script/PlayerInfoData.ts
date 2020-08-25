@@ -10,12 +10,7 @@ import I_PlayerInput from "./Interface/I_PlayerInput";
 import I_Speed from "./Interface/I_Speed";
 
 
-export default class PlayerInfoData {
-    public constructor() {
-        this.playerInpout.X = 0
-        this.playerInpout.Y = 0
-    }
-
+export default class PlayerInfoData implements I_PlayerInput, I_Speed {
 
     /** 物体所在 Node */
     public node: cc.Node;
@@ -27,21 +22,36 @@ export default class PlayerInfoData {
     public face: number = 1;
 
 
-    /** 方向输入 */
-    public playerInpout: I_PlayerInput;
+    /** X 轴按键方向 */
+    public Input_X: number = 0
+    /** Y 轴按键方向 */
+    public Input_Y: number = 0
 
 
-    /** 速度相关 */
-    public speed: I_Speed;
+
+    /** X 轴速度 */
+    public Speed_X: number = 0
+    /** Y 轴速度 */
+    public Speed_Y: number = 0
+
+    /** 横向最大移动速度 */
+    public Speed_X_Max: number = 300
+    /** 纵向最大移动速度 */
+    public Speed_Y_Max: number = 600
+
+    /** 亚像素 - X */
+    public MovementRemainder_X: number = 0;
+    /** 亚像素 - Y */
+    public MovementRemainder_Y: number = 0;
 
 
 
     /** 摩擦力 */
-    public friction: number = this.speed.speed_X_Max / 0.05;
+    public friction: number = this.Speed_X_Max / 0.05;
     /** 加速度 */
-    public acce: number = this.speed.speed_X_Max / 0.05;
+    public acce: number = this.Speed_X_Max / 0.05;
     /** 重力 */
-    public gravity: number = -180;
+    public gravity: number = -300;
 
     /** 碰撞信息 — L */
     public collision_Left: boolean = false

@@ -1,7 +1,7 @@
 import { QuadTree, Bound } from "./QuadTree";
 
 
-export class QuadTreeManage {
+export default class QuadTreeManage {
     private constructor() {
         this._quadTreeMap = {};
     }

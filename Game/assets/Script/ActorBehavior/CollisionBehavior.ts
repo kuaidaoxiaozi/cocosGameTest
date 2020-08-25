@@ -6,9 +6,9 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import ActorBehavior from "./ActorBehavior";
-import { PlayerInfoData } from "../SkillInfo_Base";
-import { QuadTreeManage } from "../KU/QuadTreeManage";
-import { AABBCollision } from "../KU/AABBCollision";
+import QuadTreeManage from "../KU/QuadTreeManage";
+import AABBCollision from "../KU/AABBCollision";
+import PlayerInfoData from "../PlayerInfoData";
 
 
 /** 检测对象四周的碰撞情况 */

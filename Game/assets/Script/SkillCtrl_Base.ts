@@ -6,8 +6,8 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import AnimTrigger_Base from "./AnimTrigger_Base";
-import { PlayerInfoData } from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
+import PlayerInfoData from "./PlayerInfoData";
 
 export default class SkillCtrlCfg_Base {
     public TriggerList: AnimTrigger_Base[] = [];

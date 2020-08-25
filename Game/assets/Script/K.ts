@@ -8,8 +8,8 @@
 import { KeyCode } from "./KeyCode";
 import Input, { $input as $Input, $input } from "./KU/Input";
 import { Bound } from "./KU/QuadTree";
-import { QuadTreeManage } from "./KU/QuadTreeManage";
-import { AABBCollision } from "./KU/AABBCollision";
+import QuadTreeManage from "./KU/QuadTreeManage";
+import AABBCollision from "./KU/AABBCollision";
 import PlayerBases from "./Base/PlayerBase";
 
 const { ccclass, property } = cc._decorator;
