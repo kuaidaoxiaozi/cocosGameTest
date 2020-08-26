@@ -10,7 +10,7 @@ import { $input, KeyState } from "./KU/Input";
 import { KeyCode } from "./KeyCode";
 import SkillCtrler_Base, { SkillCtrler_SwitchSkill, SkillCtrler_SwitchDirection, SkillCtrler_Move_X, SkillCtrler_AttackMove, SkillCtrler_Move_Y, SkillCtrler_Jump } from "./SkillCtrler_Base";
 import SkillCtrlCfg_Base from "./SkillCtrl_Base";
-import AnimTrigger_Base, { AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Input_H, AnimTrigger_KeyCode_State, AnimTrigger_Speed_H, AnimTrigger_Speed_V, AnimTrigger_Collision, AnimTrigger_OnGround, AnimTrigger_OrBox } from "./AnimTrigger_Base";
+import AnimTrigger_Base, { AnimTriggerEnum, AnimTrigger_KeyCode, AnimTrigger_FrameRange, AnimTrigger_Input_H, AnimTrigger_KeyCode_State, AnimTrigger_Speed_H, AnimTrigger_Speed_V, AnimTrigger_Collision, AnimTrigger_OnGround, AnimTrigger_OrBox } from "./AnimTrigger_Base";
 import PlayerKeyCode from "./PlayerKeyCode";
 import SkillInfo_Base from "./SkillInfo_Base";
 import FrameInfo from "./FrameInfo";
@@ -209,62 +209,93 @@ export default class ZZ extends PlayerBases {
 
 
 
-        this.add_dic("zz_stand");
-        this.add_disssc("zz_stand", "zz_run")
-        let s: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
-        s.code = PlayerKeyCode.Attack;
-        s.stateList = [KeyState.firstDown];
-        this.addWTJQH(s, "zz_stand", "zz_qlz_1");
-        this.add_AnimTrigger_levitate("zz_stand", "zz_jump");
+        // this.add_dic("zz_stand");
+        // this.add_disssc("zz_stand", "zz_run")
+        // let s: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        // s.code = PlayerKeyCode.Attack;
+        // s.stateList = [KeyState.firstDown];
+        // this.addWTJQH(s, "zz_stand", "zz_qlz_1");
+        // this.add_AnimTrigger_levitate("zz_stand", "zz_jump");
 
 
-        let sj: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
-        sj.code = PlayerKeyCode.Jump;
-        sj.stateList = [KeyState.firstDown];
-        this.add_jump("zz_stand", "zz_jump", sj, 0.2);
+        // let sj: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        // sj.code = PlayerKeyCode.Jump;
+        // sj.stateList = [KeyState.firstDown];
+        // this.add_jump("zz_stand", "zz_jump", sj, 0.15);
 
 
-        this.add_onG("zz_jump", "zz_stand");
-        this.add_onGxx("zz_jump");
+        // this.add_onG("zz_jump", "zz_jump_ground");
+        // this.add_onGxx("zz_jump");
 
 
 
-        this.add_dxwec("zz_run", "zz_stand")
-        this.add_move("zz_run");
-        this.add_AnimTrigger_levitate("zz_run", "zz_jump");
+        // let a = {
+        //     type: AnimTriggerEnum.OnGround,
+        //     _is: true,
+        // }
+        // let k = {
+        //     type: AnimTriggerEnum.KeyCode,
+        //     _is: true,
+        //     csArr: [{ name: "delay", val: 0.2 }, { name: "keyCodeList", val: [{ code: PlayerKeyCode.Jump, stateList: [KeyState.firstDown] }] }]
+        // }
+        // let f = {
+        //     type: AnimTriggerEnum.FrameRange,
+        //     _is: true,
+        //     csArr: [{ name: "startFrame", val: 1 }, { name: "endFrame", val: 4 }]
+        // }
 
-        let s1: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
-        s1.code = PlayerKeyCode.Attack;
-        s1.stateList = [KeyState.firstDown];
-        this.addYTJQH(9, 12, "zz_qlz_1", "zz_qlz_2", s1, 0.2);
-        this.addYTJQH(12, 14, "zz_qlz_1", "zz_stand");
-        this.add_attackMove("zz_qlz_1");
-
-
-        let s2: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
-        s2.code = PlayerKeyCode.Attack;
-        s2.stateList = [KeyState.firstDown];
-        this.addYTJQH(4, 8, "zz_qlz_2", "zz_qlz_3", s2, 0.2);
-        this.addYTJQH(8, 10, "zz_qlz_2", "zz_stand");
-        this.add_attackMove("zz_qlz_2");
-
-
-        let s3: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
-        s3.code = PlayerKeyCode.Attack;
-        s3.stateList = [KeyState.firstDown];
-        this.addYTJQH(7, 11, "zz_qlz_3", "zz_qlz_4", s3, 0.2);
-        this.addYTJQH(11, 13, "zz_qlz_3", "zz_stand");
-        this.add_attackMove("zz_qlz_3");
+        // let sc = new SkillCtrler_Jump()
+        // sc.nextSkillName = "zz_jump"
+        // this.add("zz_jump_ground", [[a], [k], [f]], sc)
 
 
-        this.addYTJQH(11, 13, "zz_qlz_4", "zz_stand");
-        this.add_attackMove("zz_qlz_4");
+
+        // this.add_dxwec("zz_run", "zz_stand")
+        // this.add_move("zz_run");
+        // this.add_AnimTrigger_levitate("zz_run", "zz_jump");
+
+
+        // let s1: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        // s1.code = PlayerKeyCode.Attack;
+        // s1.stateList = [KeyState.firstDown];
+        // this.addYTJQH(9, 12, "zz_qlz_1", "zz_qlz_2", s1, 0.2);
+        // this.addYTJQH(12, 14, "zz_qlz_1", "zz_stand");
+        // this.add_attackMove("zz_qlz_1");
+
+
+        // let s2: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        // s2.code = PlayerKeyCode.Attack;
+        // s2.stateList = [KeyState.firstDown];
+        // this.addYTJQH(4, 8, "zz_qlz_2", "zz_qlz_3", s2, 0.2);
+        // this.addYTJQH(8, 10, "zz_qlz_2", "zz_stand");
+        // this.add_attackMove("zz_qlz_2");
+
+
+        // let s3: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+        // s3.code = PlayerKeyCode.Attack;
+        // s3.stateList = [KeyState.firstDown];
+        // this.addYTJQH(7, 11, "zz_qlz_3", "zz_qlz_4", s3, 0.2);
+        // this.addYTJQH(11, 13, "zz_qlz_3", "zz_stand");
+        // this.add_attackMove("zz_qlz_3");
+
+
+        // this.addYTJQH(11, 13, "zz_qlz_4", "zz_stand");
+        // this.add_attackMove("zz_qlz_4");
+
+
+
+
+
+
 
     }
 
 
 
 
+
+
+    
 
     public addWTJQH(keyCode: AnimTrigger_KeyCode_State, name: string, nextName: string) {
 
@@ -532,6 +563,7 @@ export default class ZZ extends PlayerBases {
 
 
     public SkillInfoList: { [name: string]: SkillInfo_Base } = {}
+    public SkillChanageList: { [name: string]: SkillInfo_Base } = {}
     public ActorBeh: ActorBehavior[] = [];
 
 
@@ -617,6 +649,96 @@ export default class ZZ extends PlayerBases {
 
     }
 
+
+
+    /**
+     * [[{ type: "type", _is: true, cs: [{ name: "string", val: "string" }] }, { type: "type", _is: true }],,]
+     */
+    private add(name: string, tjArr: any[][], sc: SkillCtrler_Base) {
+
+        let si = this.SkillInfoList[name];
+        if (!si) {
+            si = new SkillInfo_Base();
+        }
+
+        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+        // let atob: AnimTrigger_OrBox = new AnimTrigger_OrBox();
+        // let atfr: AnimTrigger_OnGround = new AnimTrigger_OnGround(false);
+        // let atfr1: AnimTrigger_Speed_V = new AnimTrigger_Speed_V();
+
+        [[{ type: "type", _is: true, cs: [{ name: "string", val: "string" }] }, { type: "type", _is: true }], [{ type: "type", _is: true }], , , ,]
+
+        // Base,
+        // /** 有按键输入 / 无按键输入 */
+        // KeyCode,
+        // /** 帧范围 / 帧范围取反 */
+        // FrameRange,
+        // /** 有方向输入 - H / 无方向输入 - H */
+        // Input_H,
+        // /** 有速度 - H / 无速度 - H */
+        // Speed_H,
+        // /** 有速度 - V / 无速度 - V */
+        // Speed_V,
+        // /** 有碰撞 / 无碰撞 */
+        // Collision,
+        // /** 在地面 / 浮空*/
+        // OnGround,
+
+        for (let i = 0; i < tjArr.length; i++) {
+            let tj = tjArr[i];
+            let atob: AnimTrigger_OrBox = new AnimTrigger_OrBox();
+            for (let j = 0; j < tj.length; j++) {
+                let it = tj[j] as { type: AnimTriggerEnum, _is: boolean, csArr: [{ name, val }] };
+                let trigger: AnimTrigger_Base;
+                switch (it.type) {
+                    case AnimTriggerEnum.Base:
+                        trigger = new AnimTrigger_Base();
+                        break
+                    case AnimTriggerEnum.KeyCode:
+                        trigger = new AnimTrigger_KeyCode();
+                        break
+                    case AnimTriggerEnum.FrameRange:
+                        trigger = new AnimTrigger_FrameRange();
+                        break
+                    case AnimTriggerEnum.Input_H:
+                        trigger = new AnimTrigger_Input_H();
+                        break
+                    case AnimTriggerEnum.Speed_H:
+                        trigger = new AnimTrigger_Speed_H();
+                        break
+                    case AnimTriggerEnum.Speed_V:
+                        trigger = new AnimTrigger_Speed_V();
+                        break
+                    case AnimTriggerEnum.Collision:
+                        trigger = new AnimTrigger_Collision();
+                        break
+                    case AnimTriggerEnum.OnGround:
+                        trigger = new AnimTrigger_OnGround();
+                        break
+                }
+
+                if (it.csArr) {
+                    for (let i = 0; i < it.csArr.length; i++) {
+                        let cs = it.csArr[i] as { name, val };
+                        trigger[cs.name] = cs.val;
+                    }
+                }
+
+                atob.TriggerList.push(trigger);
+            }
+
+            sccb.TriggerList.push(atob);
+        }
+
+
+        sc.cfg = sccb;
+
+        si.CtrlerList.push(sc);
+
+        this.SkillInfoList[name] = si;
+
+    }
 
 
 }

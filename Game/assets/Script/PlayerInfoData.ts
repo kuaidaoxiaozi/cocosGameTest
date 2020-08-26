@@ -39,6 +39,9 @@ export default class PlayerInfoData implements I_PlayerInput, I_Speed {
     /** 纵向最大移动速度 */
     public Speed_Y_Max: number = 600
 
+    public Speed_Jump: number = 800;
+
+
     /** 亚像素 - X */
     public MovementRemainder_X: number = 0;
     /** 亚像素 - Y */
@@ -51,7 +54,7 @@ export default class PlayerInfoData implements I_PlayerInput, I_Speed {
     /** 加速度 */
     public acce: number = this.Speed_X_Max / 0.05;
     /** 重力 */
-    public gravity: number = -300;
+    public gravity: number = -1800;
 
     /** 碰撞信息 — L */
     public collision_Left: boolean = false

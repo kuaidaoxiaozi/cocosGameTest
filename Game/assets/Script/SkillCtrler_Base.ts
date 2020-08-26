@@ -156,7 +156,7 @@ export class SkillCtrler_Jump extends SkillCtrler_Base {
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
 
         info.anim.play(this.nextSkillName);
-        info.Speed_Y = 500;
+        info.Speed_Y = info.Speed_Jump;
 
     }
 

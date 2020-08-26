@@ -27,6 +27,26 @@ export enum AnimTrigeerEnum {
     /** 碰撞 */
 }
 
+export enum AnimTriggerEnum {
+    /** Trigeer 基类 */
+    Base,
+    /** 有按键输入 / 无按键输入 */
+    KeyCode,
+    /** 帧范围 / 帧范围取反 */
+    FrameRange,
+    /** 有方向输入 - H / 无方向输入 - H */
+    Input_H,
+    /** 有速度 - H / 无速度 - H */
+    Speed_H,
+    /** 有速度 - V / 无速度 - V */
+    Speed_V,
+    /** 有碰撞 / 无碰撞 */
+    Collision,
+    /** 在地面 / 浮空*/
+    OnGround,
+}
+
+
 /** Trigeer 基类 */
 export default class AnimTrigger_Base {
     /**
@@ -78,7 +98,7 @@ export class AnimTrigger_KeyCode_State {
     public stateList: KeyState[] = [KeyState.firstDown, KeyState.down, KeyState.holdDown];
 }
 
-/** 有按键输入 */
+/** 有按键输入 / 无按键输入 */
 export class AnimTrigger_KeyCode extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.keyCode;
@@ -116,7 +136,7 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
 
 
 
-/** 帧范围 */
+/** 帧范围 / 帧范围取反 */
 export class AnimTrigger_FrameRange extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.frameRange;
@@ -139,9 +159,9 @@ export class AnimTrigger_FrameRange extends AnimTrigger_Base {
         let startTime = time * this.startFrame;
         let endTime = time * this.endFrame;
 
-        if (anim_s.time < startTime && anim_s.time + time > startTime) {
-            return true;
-        }
+        // if (anim_s.time < startTime && anim_s.time + time > startTime) {
+        //     return true;
+        // }
         if (anim_s.time < startTime || anim_s.time > endTime) {
             return false;
         }
@@ -150,7 +170,7 @@ export class AnimTrigger_FrameRange extends AnimTrigger_Base {
 }
 
 
-/** 有方向输入 - H */
+/** 有方向输入 - H / 无方向输入 - H */
 export class AnimTrigger_Input_H extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
@@ -165,7 +185,7 @@ export class AnimTrigger_Input_H extends AnimTrigger_Base {
 }
 
 
-/** 有速度 - H */
+/** 有速度 - H / 无速度 - H */
 export class AnimTrigger_Speed_H extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
@@ -179,7 +199,7 @@ export class AnimTrigger_Speed_H extends AnimTrigger_Base {
     }
 }
 
-/** 有速度 - H */
+/** 有速度 - V / 无速度 - V */
 export class AnimTrigger_Speed_V extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
@@ -194,7 +214,7 @@ export class AnimTrigger_Speed_V extends AnimTrigger_Base {
 }
 
 
-/** 有碰撞 */
+/** 有碰撞 / 无碰撞 */
 export class AnimTrigger_Collision extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
@@ -230,7 +250,7 @@ export class AnimTrigger_Collision extends AnimTrigger_Base {
 }
 
 
-/** 在地面 / 取反 - 浮空*/
+/** 在地面 / 浮空*/
 export class AnimTrigger_OnGround extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;

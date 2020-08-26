@@ -56,6 +56,11 @@ export default class PlayerInputBuffer {
             this.order = PlayerKeyCode.Attack
             this.order_Time = $GameTime.time;
         }
+        a = ($input.GetKeyState(PlayerKeyCode.Jump) == KeyState.firstDown);
+        if (a) {
+            this.order = PlayerKeyCode.Jump
+            this.order_Time = $GameTime.time;
+        }
     }
 
 
