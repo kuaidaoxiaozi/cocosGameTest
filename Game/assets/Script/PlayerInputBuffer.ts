@@ -8,6 +8,7 @@
 import { $input, KeyState } from "./KU/Input";
 import { $GameTime } from "./KU/GameTime";
 import PlayerKeyCode from "./PlayerKeyCode";
+import { KeyCode } from "./KeyCode";
 
 
 export default class PlayerInputBuffer {
@@ -18,7 +19,7 @@ export default class PlayerInputBuffer {
     private input_V: number = 0;
     private input_V_Time: number = 0;
 
-    private order: number = 0;
+    private order: KeyCode = KeyCode.None;
     private order_Time: number = 0;
 
     private constructor() { }
@@ -64,11 +65,17 @@ export default class PlayerInputBuffer {
     }
 
 
-    public Get_Order_Buffer(code: number, val: number = 0.1): boolean {
+    public Get_Order_Buffer(code: KeyCode, val: number = 0.1): boolean {
         if (this.order == code && ($GameTime.time - val) < this.order_Time) {
             return true
         }
         return false
+    }
+    public Clear_Order_Buffer(code: KeyCode, time: number) {
+        // if (code == this.order && this.order_Time == time) {
+        //     this.order = KeyCode.None;
+        //     this.order_Time = 0;
+        // }
     }
 
 

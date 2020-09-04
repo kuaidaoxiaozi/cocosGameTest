@@ -13,6 +13,7 @@ export default class FrameInfo extends cc.Component {
     @property(Number)
     public moveDis: number = 0;
 
+    
 
 
 }

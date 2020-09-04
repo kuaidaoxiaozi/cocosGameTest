@@ -3,6 +3,7 @@ import { QuadTree, Bound } from "./KU/QuadTree";
 import QuadTreeManage from "./KU/QuadTreeManage";
 import { $GameTime } from "./KU/GameTime";
 import PlayerInputBuffer from "./PlayerInputBuffer";
+import Tile from "./Tile";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,8 +13,14 @@ export default class Helloworld extends cc.Component {
     @property
     text: string = 'hello';
 
-    @property(cc.Node)
-    tile: cc.Node = null;
+    @property(Tile)
+    tile0: Tile = null
+    @property(Tile)
+    tile1: Tile = null
+    @property(Tile)
+    tile2: Tile = null
+    @property(Tile)
+    tile3: Tile = null
 
 
     start() {
@@ -38,25 +45,18 @@ export default class Helloworld extends cc.Component {
 
 
         let b: Bound = new Bound;
-        b.x = 0
-        b.y = 0
-        b.width = this.node.width;
-        b.height = this.node.height;
-        let qt: QuadTree = new QuadTree(b);
+        b.x = -2000
+        b.y = -2000
+        b.width = 5000;
+        b.height = 5000;
 
         QuadTreeManage.Inst().AddTag("", b);
 
-        let t: Bound = new Bound();
-        let tp = this.tile.convertToWorldSpaceAR(new cc.Vec2(0, 0));
-        t.x = tp.x;
-        t.y = tp.y;
-        t.width = this.tile.width;
-        t.height = this.tile.height;
-
-        QuadTreeManage.Inst().AddQuadTree("", t);
-
-
-
+        for (let i = 0; i < 4; i++) {
+            let tile = this["tile" + i] as Tile;
+            let t: Bound = tile.GetBound();
+            QuadTreeManage.Inst().AddQuadTree("", t);
+        }
 
     }
 

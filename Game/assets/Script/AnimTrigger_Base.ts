@@ -44,6 +44,8 @@ export enum AnimTriggerEnum {
     Collision,
     /** 在地面 / 浮空*/
     OnGround,
+
+    Entity,
 }
 
 
@@ -130,6 +132,9 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
                 return false
             }
         }
+        for (let i = 0; i < this.keyCodeList.length; i++)
+            PlayerInputBuffer.Inst().Clear_Order_Buffer(this.keyCodeList[i].code, $GameTime.time);
+
         return true;
     }
 }
@@ -258,6 +263,34 @@ export class AnimTrigger_OnGround extends AnimTrigger_Base {
     protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
         if (info.collision_Botton)
             return true
+        return false
+    }
+}
+
+/** 有实体，无法下跳 / 无实体，能下跳 */
+export class AnimTrigger_Entity extends AnimTrigger_Base {
+
+    protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
+
+    protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+
+        if (info.collision_Botton) {
+            let bound = info.playerCollision.GetCollBoxBound();
+            let b = bound.copy();
+            let b1 = bound.copy();
+            b.y -= 1;
+            let qt = QuadTreeManage.Inst().Retrieve("", b);
+
+            let has = false;
+            for (let q of qt) {
+
+                let h = AABBCollision.HitboxToHitbox(b, q)
+                let h1 = AABBCollision.HitboxToHitbox(b1, q)
+                if ((h == true && h1 == false) && q.climb == false) {
+                    return true;
+                }
+            }
+        }
         return false
     }
 }

@@ -46,9 +46,28 @@ export class SkillCtrler_SwitchSkill extends SkillCtrler_Base {
 export class SkillCtrler_AttackMove extends SkillCtrler_Base {
 
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
-        let dis = frameInfo.moveDis * $GameTime.deltaTime;
+        let dic = info.face * frameInfo.moveDis * $GameTime.deltaTime;
 
-        info.node.x += info.face * dis;
+        info.MovementRemainder_X = dic % 1;
+
+        let moveBy = dic > 0 ? Math.floor(dic) : Math.ceil(dic); // 像素取整
+        let step = this.Sign(moveBy);// 朝向
+
+        while (moveBy != 0) {
+            let b = info.playerCollision.GetCollBoxBound();
+            b.x += step;
+            let qt = QuadTreeManage.Inst().Retrieve("", b);
+            for (let q of qt) {
+                if (AABBCollision.HitboxToHitbox(q, b) && q.climb == false) {
+                    info.Speed_X = 0;
+                    return;
+                }
+            }
+            info.node.x += step;
+            moveBy -= step;
+        }
+
+        // info.node.x += info.face * dis;
     }
 }
 
@@ -104,7 +123,27 @@ export class SkillCtrler_Move_X extends SkillCtrler_Base {
             info.Speed_X = this.Sign(info.Speed_X) * info.Speed_X_Max;
         }
 
-        info.node.x += info.Speed_X * dt;
+        let dic = info.Speed_X * $GameTime.deltaTime + info.MovementRemainder_X;
+        info.MovementRemainder_X = dic % 1;
+
+        let moveBy = dic > 0 ? Math.floor(dic) : Math.ceil(dic); // 像素取整
+        let step = this.Sign(moveBy);// 朝向
+
+        while (moveBy != 0) {
+            let b = info.playerCollision.GetCollBoxBound();
+            b.x += step;
+            let qt = QuadTreeManage.Inst().Retrieve("", b);
+            for (let q of qt) {
+                if (AABBCollision.HitboxToHitbox(q, b) && q.climb == false) {
+                    info.Speed_X = 0;
+                    return;
+                }
+            }
+            info.node.x += step;
+            moveBy -= step;
+        }
+
+        // info.node.x += info.Speed_X * dt;
     }
 
 }
@@ -120,7 +159,60 @@ export class SkillCtrler_Move_Y extends SkillCtrler_Base {
         }
 
 
-        let dic = info.Speed_Y * $GameTime.deltaTime + info.MovementRemainder_X;
+        let dic = info.Speed_Y * $GameTime.deltaTime + info.MovementRemainder_Y;
+        info.MovementRemainder_Y = dic % 1;
+
+        let moveBy = dic > 0 ? Math.floor(dic) : Math.ceil(dic); // 像素取整
+        let step = this.Sign(moveBy);// 朝向
+
+        while (moveBy != 0) {
+            let b = info.playerCollision.GetCollBoxBound();
+            b.y += step;
+            let qt = QuadTreeManage.Inst().Retrieve("", b);
+            for (let q of qt) {
+                if (AABBCollision.HitboxToHitbox(q, b)) {
+                    if (q.climb == false) {
+                        if (info.Speed_Y > 1)
+                            info.Speed_Y = 1
+                        else
+                            info.Speed_Y = 0;
+                        return;
+                    } else {
+                        if ((b.y - step) == (q.y + q.height) && step < 0) {
+                            if (info.Speed_Y > 1)
+                                info.Speed_Y = 1
+                            else
+                                info.Speed_Y = 0;
+                            return;
+                        }
+                    }
+                }
+            }
+            info.node.y += step;
+            moveBy -= step;
+        }
+
+
+        // info.node.y += info.Speed_Y * $GameTime.deltaTime;
+    }
+
+}
+
+
+/** 下落 */
+export class SkillCtrler_Move_Down extends SkillCtrler_Base {
+
+    public speed: number = 0;
+
+    protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
+
+        info.Speed_Y += info.gravity * $GameTime.deltaTime;
+        if (Math.abs(info.Speed_Y) > info.Speed_Y_Max) {
+            info.Speed_Y = this.Sign(info.Speed_Y) * info.Speed_Y_Max;
+        }
+
+
+        let dic = this.speed * $GameTime.deltaTime + info.MovementRemainder_X;
         info.MovementRemainder_X = dic % 1;
 
         let moveBy = dic > 0 ? Math.floor(dic) : Math.ceil(dic); // 像素取整
@@ -132,8 +224,21 @@ export class SkillCtrler_Move_Y extends SkillCtrler_Base {
             let qt = QuadTreeManage.Inst().Retrieve("", b);
             for (let q of qt) {
                 if (AABBCollision.HitboxToHitbox(q, b)) {
-                    info.Speed_Y = 0;
-                    return;
+                    if (q.climb == false) {
+                        if (info.Speed_Y > 1)
+                            info.Speed_Y = 1
+                        else
+                            info.Speed_Y = 0;
+                        return;
+                    } else {
+                        if ((b.y - step) == (q.y + q.height) && step < 0) {
+                            if (info.Speed_Y > 1)
+                                info.Speed_Y = 1
+                            else
+                                info.Speed_Y = 0;
+                            return;
+                        }
+                    }
                 }
             }
             info.node.y += step;
@@ -148,6 +253,7 @@ export class SkillCtrler_Move_Y extends SkillCtrler_Base {
 
 
 
+
 /** 跳 */
 export class SkillCtrler_Jump extends SkillCtrler_Base {
 
@@ -158,6 +264,17 @@ export class SkillCtrler_Jump extends SkillCtrler_Base {
         info.anim.play(this.nextSkillName);
         info.Speed_Y = info.Speed_Jump;
 
+    }
+
+}
+
+/** 下跳 */
+export class SkillCtrler_DownJump extends SkillCtrler_Base {
+
+
+    protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
+        info.node.y -= 2;
+        info.collision_Botton = false;
     }
 
 }

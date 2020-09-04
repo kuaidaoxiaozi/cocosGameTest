@@ -292,6 +292,8 @@ export class Bound {
     public y: number = 0;
     public width: number = 0;
     public height: number = 0;
+    /** 是否能攀爬 */
+    public climb: boolean = false;
 
     public copy(): Bound {
         let b = new Bound;
@@ -299,6 +301,7 @@ export class Bound {
         b.y = this.y
         b.width = this.width
         b.height = this.height
+        b.climb = this.climb
         return b;
     }
 }
