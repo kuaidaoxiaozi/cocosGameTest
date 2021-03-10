@@ -49,7 +49,7 @@ export enum AnimTriggerEnum {
 }
 
 
-/** Trigeer 基类 */
+/** Trigeer 基类 - 默认返回 true*/
 export default class AnimTrigger_Base {
     /**
      * @param isNOT 是否取反
@@ -96,8 +96,12 @@ export class AnimTrigger_OrBox extends AnimTrigger_Base {
 }
 
 export class AnimTrigger_KeyCode_State {
-    public code: KeyCode = KeyCode.None;
-    public stateList: KeyState[] = [KeyState.firstDown, KeyState.down, KeyState.holdDown];
+    public code: KeyCode;
+    public stateList: KeyState[];
+    constructor(code: KeyCode = KeyCode.None, stateList: KeyState[] = []) {//[KeyState.firstDown, KeyState.down, KeyState.holdDown]
+        this.code = code;
+        this.stateList = stateList;
+    }
 }
 
 /** 有按键输入 / 无按键输入 */
@@ -267,7 +271,7 @@ export class AnimTrigger_OnGround extends AnimTrigger_Base {
     }
 }
 
-/** 有实体，无法下跳 / 无实体，能下跳 */
+/** 有实体，无法下跳 / 无实体，能下跳  --  有 Bug*/
 export class AnimTrigger_Entity extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.direction;
@@ -281,7 +285,6 @@ export class AnimTrigger_Entity extends AnimTrigger_Base {
             b.y -= 1;
             let qt = QuadTreeManage.Inst().Retrieve("", b);
 
-            let has = false;
             for (let q of qt) {
 
                 let h = AABBCollision.HitboxToHitbox(b, q)

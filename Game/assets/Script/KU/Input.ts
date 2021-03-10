@@ -67,6 +67,26 @@ export default class Input {
 
     public KeyDownList: KeyCode[] = [];
 
+    /**
+     * 检测是否只按下了这些按键
+     * @param keyCodes 
+     * @returns 
+     */
+    public IsOnlyDownTheseKeyCode(keyCodes: KeyCode[]): boolean {
+        if (keyCodes.length != this.KeyDownList.length) {
+            return false
+        } else {
+            for (let i = 0; i < this.KeyDownList.length; i++) {
+                if (keyCodes.indexOf(this.KeyDownList[i]) < 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+
+
 
     onKeyDown(event: cc.Event.EventKeyboard) {
         let self = this;

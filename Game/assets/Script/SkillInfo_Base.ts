@@ -13,9 +13,19 @@ import PlayerInfoData from "./PlayerInfoData";
 
 export default class SkillInfo_Base {
 
-    public CtrlerList: SkillCtrler_Base[] = []
+    constructor() {
+        this.CtrlerList = [];
+    }
 
+    /** 一个技能会有多个技能事件 */
+    public CtrlerList: SkillCtrler_Base[];
 
+    /** 添加一个可执行的技能事件 */
+    public AddCtrler(ctr: SkillCtrler_Base) {
+        this.CtrlerList.push(ctr);
+    }
+
+    /** 逐个执行技能事件 */
     public execute(info: PlayerInfoData, frameInfo: FrameInfo) {
         for (let c of this.CtrlerList) {
             c.ctrler(info, frameInfo);

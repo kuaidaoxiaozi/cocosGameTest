@@ -13,10 +13,22 @@ import FrameInfo from "./FrameInfo";
 import PlayerInfoData from "./PlayerInfoData";
 import QuadTreeManage from "./KU/QuadTreeManage";
 import AABBCollision from "./KU/AABBCollision";
+import AnimTrigger_Base from "./AnimTrigger_Base";
 
+
+/** 技能事件的基类 */
 export default class SkillCtrler_Base {
 
     public cfg: SkillCtrlCfg_Base;
+
+    constructor() {
+        this.cfg = new SkillCtrlCfg_Base();
+    }
+
+    /** 添加一个触发器 */
+    public AddTrigger(tri: AnimTrigger_Base) {
+        this.cfg.AddTrigger(tri);
+    }
 
     public ctrler(info: PlayerInfoData, frameInfo: FrameInfo) {
         if (this.cfg.IsTrigger(info, frameInfo)) {
@@ -32,8 +44,17 @@ export default class SkillCtrler_Base {
 
 }
 
-
+/** 切换动画 */
 export class SkillCtrler_SwitchSkill extends SkillCtrler_Base {
+
+    /**
+     * 
+     * @param nextSkillName 切换的动画名字
+     */
+    constructor(nextSkillName: string = "") {
+        super();
+        this.nextSkillName = nextSkillName;
+    }
 
     public nextSkillName: string
 
@@ -44,7 +65,9 @@ export class SkillCtrler_SwitchSkill extends SkillCtrler_Base {
 }
 
 export class SkillCtrler_AttackMove extends SkillCtrler_Base {
-
+    constructor() {
+        super();
+    }
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
         let dic = info.face * frameInfo.moveDis * $GameTime.deltaTime;
 
@@ -73,6 +96,9 @@ export class SkillCtrler_AttackMove extends SkillCtrler_Base {
 
 
 export class SkillCtrler_SwitchDirection extends SkillCtrler_Base {
+    constructor() {
+        super();
+    }
 
     public scale = 1;
 
@@ -93,6 +119,9 @@ export class SkillCtrler_SwitchDirection extends SkillCtrler_Base {
 }
 
 export class SkillCtrler_Move_X extends SkillCtrler_Base {
+    constructor() {
+        super();
+    }
 
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
         this.move(info, frameInfo);
@@ -150,6 +179,9 @@ export class SkillCtrler_Move_X extends SkillCtrler_Base {
 
 /** 下落 */
 export class SkillCtrler_Move_Y extends SkillCtrler_Base {
+    constructor() {
+        super();
+    }
 
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {
 
@@ -201,6 +233,9 @@ export class SkillCtrler_Move_Y extends SkillCtrler_Base {
 
 /** 下落 */
 export class SkillCtrler_Move_Down extends SkillCtrler_Base {
+    constructor() {
+        super();
+    }
 
     public speed: number = 0;
 
@@ -256,6 +291,9 @@ export class SkillCtrler_Move_Down extends SkillCtrler_Base {
 
 /** 跳 */
 export class SkillCtrler_Jump extends SkillCtrler_Base {
+    constructor() {
+        super();
+    }
 
     public nextSkillName: string;
 
@@ -270,6 +308,9 @@ export class SkillCtrler_Jump extends SkillCtrler_Base {
 
 /** 下跳 */
 export class SkillCtrler_DownJump extends SkillCtrler_Base {
+    constructor() {
+        super();
+    }
 
 
     protected event(info: PlayerInfoData, frameInfo: FrameInfo) {

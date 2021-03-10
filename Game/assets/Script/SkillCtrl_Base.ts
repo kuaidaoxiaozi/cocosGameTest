@@ -9,8 +9,20 @@ import AnimTrigger_Base from "./AnimTrigger_Base";
 import FrameInfo from "./FrameInfo";
 import PlayerInfoData from "./PlayerInfoData";
 
+/** 技能事件的触发器CFG */
 export default class SkillCtrlCfg_Base {
-    public TriggerList: AnimTrigger_Base[] = [];
+
+    constructor() {
+        this.TriggerList = [];
+    }
+
+    /** 触发器数组 */
+    public TriggerList: AnimTrigger_Base[];
+
+    /** 添加一个触发器 */
+    public AddTrigger(tri: AnimTrigger_Base) {
+        this.TriggerList.push(tri);
+    }
 
     public IsTrigger(info: PlayerInfoData, frameInfo: FrameInfo) {
 
