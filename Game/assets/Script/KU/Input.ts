@@ -1,3 +1,4 @@
+import { AnimTrigger_KeyCode_State } from "../AnimTrigger_Base";
 import { KeyCode } from "../KeyCode";
 import { $GameTime } from "./GameTime";
 
@@ -72,18 +73,29 @@ export default class Input {
      * @param keyCodes 
      * @returns 
      */
-    public IsOnlyDownTheseKeyCode(keyCodes: KeyCode[]): boolean {
+    public IsOnlyDownTheseKeyCode(keyCodes: AnimTrigger_KeyCode_State[]): boolean {
         if (keyCodes.length != this.KeyDownList.length) {
             return false
         } else {
-            for (let i = 0; i < this.KeyDownList.length; i++) {
-                if (keyCodes.indexOf(this.KeyDownList[i]) < 0) {
+            // for (let i = 0; i < this.KeyDownList.length; i++) {
+            //     if (keyCodes.indexOf(this.KeyDownList[i]) < 0) {
+            //         return false;
+            //     }
+            // }
+            for (let i = 0; i < keyCodes.length; i++) {
+                if (this.KeyDownList.indexOf(keyCodes[i].code) < 0) { // 是否存在按键
+                    return false;
+                }
+                if (keyCodes[i].stateList.indexOf(this.keyState[keyCodes[i].code]) < 0) {  // 按键状态是否匹配
                     return false;
                 }
             }
             return true;
         }
     }
+
+
+
 
 
 

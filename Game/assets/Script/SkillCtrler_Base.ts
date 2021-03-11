@@ -291,8 +291,9 @@ export class SkillCtrler_Move_Down extends SkillCtrler_Base {
 
 /** 跳 */
 export class SkillCtrler_Jump extends SkillCtrler_Base {
-    constructor() {
+    constructor(nextSkillName: string = "") {
         super();
+        this.nextSkillName = nextSkillName;
     }
 
     public nextSkillName: string;

@@ -104,7 +104,7 @@ export class AnimTrigger_KeyCode_State {
     }
 }
 
-/** 有按键输入 / 无按键输入 */
+/** 有按键输入 - 无法取反 */
 export class AnimTrigger_KeyCode extends AnimTrigger_Base {
 
     protected _type: AnimTrigeerEnum = AnimTrigeerEnum.keyCode;
@@ -113,6 +113,17 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
     public delay: number = 0
     /** 按键列表 */
     public keyCodeList: AnimTrigger_KeyCode_State[] = [];
+    /** 是否检测只按下了这些按键 */
+    public IsOnlyDownTheseKeyCode: boolean = false;
+
+    /**
+     * 
+     * @param isOnly 是否检测只按下了这些按键
+     */
+    constructor(isOnly: boolean = false) {
+        super(true);
+        this.IsOnlyDownTheseKeyCode = isOnly;
+    }
 
     public toDesc() {
         let str = "按键事件: ";
@@ -123,12 +134,21 @@ export class AnimTrigger_KeyCode extends AnimTrigger_Base {
     }
 
     protected Trigger(info: PlayerInfoData, frameInfo: FrameInfo): boolean {
+
+        // 检测只按下了这些按键
+        if (this.IsOnlyDownTheseKeyCode == true) {
+            let isOnly = $input.IsOnlyDownTheseKeyCode(this.keyCodeList);
+            if (isOnly == false) {
+                return false;
+            }
+        }
+
         for (let i = 0; i < this.keyCodeList.length; i++) {
 
             let nowInputState = $input.GetKeyState(this.keyCodeList[i].code);
             let isInput = this.keyCodeList[i].stateList.indexOf(nowInputState) >= 0;
 
-            let order = PlayerInputBuffer.Inst().Get_Order_Buffer(this.keyCodeList[i].code, this.delay)
+            let order = PlayerInputBuffer.Inst().Get_Order_Buffer(this.keyCodeList[i].code, this.delay);
 
             if (isInput == false && order == false) {
                 // let inp = $input.GetKeyState(this.keyCodeList[i]);

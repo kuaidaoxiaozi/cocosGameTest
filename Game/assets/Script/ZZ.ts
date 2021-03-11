@@ -45,155 +45,7 @@ export default class ZZ extends PlayerBases {
 
     }
 
-
-    // private AnimUpdateMap: { [name: string]: Function };
-
-
     start() {
-        let self = this;
-        // this.AnimUpdateMap = {};
-
-        // let zz_stand = () => {
-
-        //     let l = $input.GetKeyState(KeyCode.LeftArrow) > 0;
-        //     let r = $input.GetKeyState(KeyCode.RightArrow) > 0;
-
-        //     let axis = 0;
-        //     axis += (l ? -1 : 0);
-        //     axis += (r ? 1 : 0);
-
-        //     let j = $input.GetKeyState(KeyCode.X) > 0;
-
-        //     if (axis != 0) {
-        //         self.anim_S = self.anim.play("zz_run");
-        //     } else {
-        //         if (j) {
-        //             self.anim_S = self.anim.play("zz_qlz_1");
-        //         }
-        //     }
-
-        // }
-        // zz_stand.bind(self);
-        // self.AnimUpdateMap["zz_stand"] = zz_stand;
-
-
-        // let zz_run = (dt) => {
-
-        //     let l = $input.GetKeyState(KeyCode.LeftArrow) > 0;
-        //     let r = $input.GetKeyState(KeyCode.RightArrow) > 0;
-
-        //     let axis = 0;
-        //     axis += (l ? -1 : 0);
-        //     axis += (r ? 1 : 0);
-
-        //     if (axis == 0 && self.speed_X == 0) {
-        //         self.anim_S = self.anim.play("zz_stand");
-        //     }
-
-        //     let j = $input.GetKeyState(KeyCode.X) > 0;
-        //     if (j) {
-        //         self.speed_X == 0
-        //         self.anim_S = self.anim.play("zz_attack");
-        //     }
-
-        //     self.move(dt);
-        // }
-        // zz_run.bind(self);
-        // self.AnimUpdateMap["zz_run"] = zz_run;
-
-        // let zz_attack = () => {
-        //     if (self.anim_S.time >= self.anim_S.duration) {
-
-        //         let l = $input.GetKeyState(KeyCode.LeftArrow) > 0;
-        //         let r = $input.GetKeyState(KeyCode.RightArrow) > 0;
-
-        //         let axis = 0;
-        //         axis += (l ? -1 : 0);
-        //         axis += (r ? 1 : 0);
-
-        //         if (axis != 0) {
-        //             self.node.x += axis * 45;
-        //             self.anim_S = self.anim.play("zz_run");
-        //         } else {
-        //             self.node.x += self.face * 45;
-        //             self.anim_S = self.anim.play("zz_stand");
-        //         }
-        //     }
-        // }
-        // zz_attack.bind(self);
-        // self.AnimUpdateMap["zz_attack"] = zz_attack;
-
-
-
-
-
-        // let zz_qlz_1 = () => {
-        //     let tick = 1 / self.anim_S.clip.sample;
-        //     if (self.anim_S.time >= self.anim_S.duration) {
-        //         self.anim_S = self.anim.play("zz_stand");
-        //     }
-        //     else if (self.anim_S.time > tick * 4) {
-        //         if ($input.GetKeyState(KeyCode.X)) {
-        //             self.anim_S = self.anim.play("zz_qlz_2");
-        //         }
-        //     }
-        // }
-        // zz_qlz_1.bind(self);
-        // self.AnimUpdateMap["zz_qlz_1"] = zz_qlz_1;
-
-        // let zz_qlz_2 = () => {
-        //     let tick = 1 / self.anim_S.clip.sample;
-        //     if (self.anim_S.time >= self.anim_S.duration) {
-        //         self.anim_S = self.anim.play("zz_stand");
-        //     } else if (self.anim_S.time > tick * 4) {
-        //         if ($input.GetKeyState(KeyCode.X)) {
-        //             self.anim_S = self.anim.play("zz_qlz_3");
-        //         }
-        //     }
-        // }
-        // zz_qlz_2.bind(self);
-        // self.AnimUpdateMap["zz_qlz_2"] = zz_qlz_2;
-
-        // let zz_qlz_3 = () => {
-        //     let tick = 1 / self.anim_S.clip.sample;
-        //     if (self.anim_S.time >= self.anim_S.duration) {
-        //         self.anim_S = self.anim.play("zz_stand");
-        //     } else if (self.anim_S.time > tick * 7) {
-        //         if ($input.GetKeyState(KeyCode.X)) {
-        //             self.anim_S = self.anim.play("zz_qlz_4");
-        //         }
-        //     }
-        // }
-        // zz_qlz_3.bind(self);
-        // self.AnimUpdateMap["zz_qlz_3"] = zz_qlz_3;
-
-        // let zz_qlz_4 = () => {
-
-        //     if (self.anim_S.time >= self.anim_S.duration) {
-        //         self.anim_S = self.anim.play("zz_stand");
-        //     }
-        // }
-        // zz_qlz_4.bind(self);
-        // self.AnimUpdateMap["zz_qlz_4"] = zz_qlz_4;
-
-
-
-        // let ats0: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
-        // ats0.keyCodeList.push(PlayerKeyCode.Attack);
-
-        // let sccb0: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
-        // sccb0.TriggerList.push(ats0);
-
-        // let scss0: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
-        // scss0.cfg = sccb0;
-        // scss0.nextSkillName = "zz_qlz_1";
-        // scss0.anim = self.anim;
-
-        // this.ssss["zz_stand"] = scss0;
-
-
-
-
 
         // Behavior 事件
 
@@ -212,12 +64,6 @@ export default class ZZ extends PlayerBases {
 
         this.fun_ChangeState_zz_stand();
 
-
-        // this.addDownJump("zz_stand");
-        let sj: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
-        sj.code = PlayerKeyCode.Jump;
-        sj.stateList = [KeyState.firstDown];
-        this.add_jump("zz_stand", "zz_jump", sj, 0.15);
 
 
         this.add_onG("zz_jump", "zz_jump_ground");
@@ -316,47 +162,6 @@ export default class ZZ extends PlayerBases {
     }
 
 
-    public addDownJump(name: string) {
-        let si = this.SkillInfoList[name];
-        if (!si) {
-            si = new SkillInfo_Base();
-        }
-
-        let keyCode = new AnimTrigger_KeyCode_State();
-        keyCode.code = PlayerKeyCode.Down;
-        keyCode.stateList = [KeyState.firstDown, KeyState.down, KeyState.holdDown]
-
-        let keyCode1 = new AnimTrigger_KeyCode_State();
-        keyCode1.code = PlayerKeyCode.Jump;
-        keyCode1.stateList = [KeyState.firstDown]
-
-
-        let ats: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
-        ats.keyCodeList.push(keyCode);
-        ats.keyCodeList.push(keyCode1);
-
-        let xxx: AnimTrigger_Entity = new AnimTrigger_Entity(false);
-
-
-
-        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
-        sccb.TriggerList.push(ats);
-        sccb.TriggerList.push(xxx);
-
-
-
-        let scss: SkillCtrler_DownJump = new SkillCtrler_DownJump();
-        scss.cfg = sccb;
-
-        si.CtrlerList.push(scss);
-
-        this.SkillInfoList[name] = si;
-
-    }
-
-
-
-
 
 
 
@@ -368,7 +173,7 @@ export default class ZZ extends PlayerBases {
 
         let si = this.SkillInfoList[name];
         if (!si) {
-            si = new SkillInfo_Base();
+            si = new SkillInfo_Base(name);
         }
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
@@ -389,7 +194,7 @@ export default class ZZ extends PlayerBases {
     public AddAttackDown(name: string) {
         let si = this.SkillInfoList[name];
         if (!si) {
-            si = new SkillInfo_Base();
+            si = new SkillInfo_Base(name);
         }
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
@@ -412,7 +217,7 @@ export default class ZZ extends PlayerBases {
 
         let si = this.SkillInfoList[name];
         if (!si) {
-            si = new SkillInfo_Base();
+            si = new SkillInfo_Base(name);
         }
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
@@ -469,7 +274,7 @@ export default class ZZ extends PlayerBases {
         ctr_Jump_Levitate.AddTrigger(at_OnGround);
         si.CtrlerList.push(ctr_Jump_Levitate);
 
-        // 下跳 - 切换至跳跃动画
+        // 下跳 - 切换至跳跃动画 - 下跳存在 Bug
         let ctr_Jump_DownJump: SkillCtrler_DownJump = new SkillCtrler_DownJump();
 
         let kc_jd_Down = new AnimTrigger_KeyCode_State();
@@ -492,16 +297,67 @@ export default class ZZ extends PlayerBases {
 
         si.CtrlerList.push(ctr_Jump_DownJump);
 
-        
+
+        // 跳跃
+
+        let ctr_Jump: SkillCtrler_Jump = new SkillCtrler_Jump("zz_jump");
+
+        let kd_j_jump: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State(PlayerKeyCode.Jump, [KeyState.firstDown]);
+        let at_kd_j: AnimTrigger_KeyCode = new AnimTrigger_KeyCode(true);
+        at_kd_j.keyCodeList.push(kd_j_jump);
+
+        let at_j_onGround: AnimTrigger_OnGround = new AnimTrigger_OnGround();
+
+        ctr_Jump.AddTrigger(at_kd_j);
+        ctr_Jump.AddTrigger(at_j_onGround);
+
+        si.CtrlerList.push(ctr_Jump);
+
+
 
     }
 
+
+    // public add_jump(name: string, nextName: string, keyCodeStateLsit: AnimTrigger_KeyCode_State, delay: number = 0) {
+    //     let si = this.SkillInfoList[name];
+    //     if (!si) {
+    //         si = new SkillInfo_Base();
+    //     }
+
+    //     let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
+
+    //     let atfr: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
+    //     atfr.keyCodeList.push(keyCodeStateLsit);
+    //     atfr.delay = delay;
+
+    //     let b: AnimTrigger_OnGround = new AnimTrigger_OnGround();
+
+    //     let atfr1: AnimTrigger_KeyCode = new AnimTrigger_KeyCode(false);
+    //     let key: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
+    //     key.code = PlayerKeyCode.Down;
+    //     key.stateList = [KeyState.firstDown]
+    //     atfr1.keyCodeList.push(key);
+    //     atfr1.delay = delay;
+
+    //     sccb.TriggerList.push(atfr);
+    //     sccb.TriggerList.push(atfr1);
+    //     sccb.TriggerList.push(b);
+
+
+    //     let scss: SkillCtrler_Jump = new SkillCtrler_Jump();
+    //     scss.cfg = sccb;
+    //     scss.nextSkillName = nextName;
+
+    //     si.CtrlerList.push(scss);
+
+    //     this.SkillInfoList[name] = si;
+    // }
 
 
     public add_move(name: string) {
         let si = this.SkillInfoList[name];
         if (!si) {
-            si = new SkillInfo_Base();
+            si = new SkillInfo_Base(name);
         }
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
@@ -564,7 +420,7 @@ export default class ZZ extends PlayerBases {
     public add_dxwec(name: string, nextName: string) {
         let si = this.SkillInfoList[name];
         if (!si) {
-            si = new SkillInfo_Base();
+            si = new SkillInfo_Base(name);
         }
 
         let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
@@ -613,40 +469,7 @@ export default class ZZ extends PlayerBases {
 
 
 
-    public add_jump(name: string, nextName: string, keyCodeStateLsit: AnimTrigger_KeyCode_State, delay: number = 0) {
-        let si = this.SkillInfoList[name];
-        if (!si) {
-            si = new SkillInfo_Base();
-        }
 
-        let sccb: SkillCtrlCfg_Base = new SkillCtrlCfg_Base();
-
-        let atfr: AnimTrigger_KeyCode = new AnimTrigger_KeyCode();
-        atfr.keyCodeList.push(keyCodeStateLsit);
-        atfr.delay = delay;
-
-        let b: AnimTrigger_OnGround = new AnimTrigger_OnGround();
-
-        let atfr1: AnimTrigger_KeyCode = new AnimTrigger_KeyCode(false);
-        let key: AnimTrigger_KeyCode_State = new AnimTrigger_KeyCode_State();
-        key.code = PlayerKeyCode.Down;
-        key.stateList = [KeyState.firstDown, KeyState.down, KeyState.holdDown]
-        atfr1.keyCodeList.push(key);
-        atfr1.delay = delay;
-
-        sccb.TriggerList.push(atfr);
-        sccb.TriggerList.push(atfr1);
-        sccb.TriggerList.push(b);
-
-
-        let scss: SkillCtrler_Jump = new SkillCtrler_Jump();
-        scss.cfg = sccb;
-        scss.nextSkillName = nextName;
-
-        si.CtrlerList.push(scss);
-
-        this.SkillInfoList[name] = si;
-    }
 
 
     public add_jumpToStand(name: string, nextName: string, startFR: number, endFR: number) {
@@ -683,17 +506,10 @@ export default class ZZ extends PlayerBases {
 
         let atfr: AnimTrigger_OnGround = new AnimTrigger_OnGround();
         let atfr1: AnimTrigger_Speed_V = new AnimTrigger_Speed_V(false);
-        let atfr2: AnimTrigger_KeyCode = new AnimTrigger_KeyCode(false);
-        let key = new AnimTrigger_KeyCode_State();
-        key.code = PlayerKeyCode.Jump;
-        key.stateList = [KeyState.firstDown];
-        atfr2.delay = 0.05;
-        atfr2.keyCodeList.push(key);
 
 
         sccb.TriggerList.push(atfr);
         sccb.TriggerList.push(atfr1);
-        sccb.TriggerList.push(atfr2);
 
         let scss: SkillCtrler_SwitchSkill = new SkillCtrler_SwitchSkill();
         scss.cfg = sccb;

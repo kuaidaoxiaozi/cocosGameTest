@@ -13,9 +13,12 @@ import PlayerInfoData from "./PlayerInfoData";
 
 export default class SkillInfo_Base {
 
-    constructor() {
+    constructor(name: string) {
         this.CtrlerList = [];
+        this.name = name;
     }
+
+    public name = "";
 
     /** 一个技能会有多个技能事件 */
     public CtrlerList: SkillCtrler_Base[];
@@ -28,6 +31,9 @@ export default class SkillInfo_Base {
     /** 逐个执行技能事件 */
     public execute(info: PlayerInfoData, frameInfo: FrameInfo) {
         for (let c of this.CtrlerList) {
+            if (info.anim.currentClip.name != this.name && this.name != "") {
+                break;
+            }
             c.ctrler(info, frameInfo);
         }
     }
